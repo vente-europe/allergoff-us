@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Allergoff — US Market Analysis Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:13px}
+header{background:#0f2942;color:#fff;padding:18px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:101}
+header h1{font-size:1.2rem}
+header p{font-size:.75rem;opacity:.65;margin-top:3px}
+.tabs{display:flex;background:#fff;border-bottom:2px solid #e2e8f0;padding:0 32px;gap:2px;position:sticky;top:68px;z-index:100}
+.tab{padding:12px 16px;cursor:pointer;font-size:.83rem;font-weight:600;color:#64748b;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;letter-spacing:.01em}
+.tab:hover{color:#1e3a5f}.tab.active{color:#1e3a5f;border-bottom-color:#2563eb}
+.content{padding:22px 32px}
+.panel{display:none}.panel.active{display:block}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:#fff;border-radius:8px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.kpi-v{font-size:1.15rem;font-weight:700;color:#0f2942;word-break:break-word;line-height:1.2}
+.kpi-l{font-size:.68rem;color:#64748b;margin-top:4px;line-height:1.3}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px}
+.card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.07);margin-bottom:18px}
+.card h3{font-size:.83rem;font-weight:600;color:#475569;margin-bottom:12px}
+.cw{position:relative;height:240px}
+table{width:100%;border-collapse:collapse;font-size:.75rem}
+th{background:#f8fafc;text-align:left;padding:6px 7px;font-weight:600;color:#475569;white-space:nowrap;position:sticky;top:0;border-bottom:1px solid #e2e8f0}
+td{padding:5px 7px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+tr:hover td{background:#f8fafc}
+td a{color:#2563eb;text-decoration:none;font-family:monospace;font-size:.72rem}
+td a:hover{text-decoration:underline}
+.tbl-wrap{overflow-x:auto;max-height:480px;overflow-y:auto}
+h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
+.insight{background:#eff6ff;border-left:3px solid #2563eb;padding:10px 14px;border-radius:0 6px 6px 0;margin-bottom:14px;font-size:.8rem;color:#1e40af;line-height:1.5}
+.note{font-size:.72rem;color:#64748b;margin-top:10px;padding:9px 11px;background:#f8fafc;border-radius:5px;border-left:2px solid #cbd5e1;line-height:1.5}
+.badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:.68rem;font-weight:600}
+.badge-seg1{background:#dcfce7;color:#15803d}
+.badge-seg2{background:#fee2e2;color:#991b1b}
+.badge-type{background:#eff6ff;color:#1d4ed8}
+.num-right th:not(:first-child),.num-right td:not(:first-child){text-align:right}
+
+/* Sub-tabs */
+.sub-tabs{display:flex;background:#fff;border-bottom:2px solid #e2e8f0;padding:0 32px;gap:2px;position:sticky;top:0;z-index:99}
+.sub-tab{padding:10px 18px;cursor:pointer;font-size:.8rem;font-weight:600;color:#64748b;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.sub-tab:hover{color:#1e3a5f}.sub-tab.active{color:#1e3a5f;border-bottom-color:#2563eb}
+.sub-panel{display:none}.sub-panel.active{display:block}
+
+/* Anchor nav pills */
+.anchor-nav{display:flex;gap:6px;padding:10px 32px 10px;margin:0 -32px 14px;flex-wrap:wrap;position:sticky;top:41px;z-index:98;background:#fff;border-bottom:1px solid #e2e8f0;box-shadow:0 2px 4px rgba(0,0,0,.06)}
+.anchor-nav a{padding:7px 16px;border-radius:20px;font-size:.75rem;font-weight:600;color:#475569;background:#f1f5f9;text-decoration:none;border:1.5px solid #e2e8f0;transition:all .15s}
+.anchor-nav a:hover,.anchor-nav a.active{color:#1e3a5f;background:#dbeafe;border-color:#93c5fd}
+
+/* Section header with icon */
+.sec-header{display:flex;align-items:center;gap:10px;margin-bottom:6px;padding-top:8px}
+.sec-icon{flex-shrink:0}
+.sec-title{font-size:1rem;font-weight:700;color:#1e293b}
+.sec-summary{font-size:.78rem;color:#64748b;line-height:1.55;margin-bottom:20px;max-width:900px}
+
+/* Customer Profile 4-chart grid */
+.cp-charts{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:10px}
+.cp-chart-box{background:#fff;border-radius:8px;padding:14px 14px 10px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.cp-chart-box h4{font-size:.82rem;font-weight:700;color:#1e293b;margin-bottom:8px}
+.cp-chart-wrap{position:relative;height:230px}
+.cp-legend{font-size:.68rem;color:#94a3b8;text-align:right;padding:6px 0 0}
+
+/* Competitive Analysis table */
+.ca-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.ca-table th{background:#f8fafc;text-align:left;padding:10px 14px;font-weight:600;color:#475569;border-bottom:2px solid #e2e8f0;white-space:nowrap}
+.ca-table td{padding:10px 14px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.ca-table tr:hover td{background:#f8fafc}
+.ca-table .ca-img{width:80px;height:80px;object-fit:contain;border-radius:4px}
+.ca-stars{color:#f59e0b;font-size:.85rem;letter-spacing:-1px}
+.ca-rating{font-size:.78rem;color:#1e293b;font-weight:600;margin-left:4px}
+
+/* Placeholder */
+.placeholder{background:#fffbeb;border-left:3px solid #f59e0b;padding:14px 18px;border-radius:0 6px 6px 0;font-size:.82rem;color:#92400e;line-height:1.5;margin-bottom:18px}
+
+/* Customer Sentiment — negative zone */
+.cs-neg-zone{background:#fef2f2;border-radius:10px;padding:18px;margin-bottom:22px}
+.nf-row{cursor:pointer;transition:background .15s}
+.nf-row:hover td{background:#fff5f5!important}
+.nf-arrow{display:inline-block;font-size:.65rem;margin-right:6px;transition:transform .2s;color:#94a3b8}
+.nf-row.open .nf-arrow{transform:rotate(90deg)}
+.nf-detail{display:none}
+.nf-detail.open{display:table-row}
+.nf-body{padding:8px 16px 12px;background:#fff9f9;border-left:3px solid #fca5a5}
+.nf-body ul{margin:0 0 8px 16px;font-size:.75rem;color:#334155;line-height:1.55}
+.nf-body ul li{margin-bottom:2px}
+.nf-quotes{border-top:1px solid #fde8e8;padding-top:6px}
+.nf-quotes p{font-size:.72rem;color:#9a3412;font-style:italic;line-height:1.45;margin-bottom:3px}
+/* Customer Sentiment — positive zone */
+.cs-pos-zone{background:#f0fdf4;border-radius:10px;padding:18px;margin-bottom:22px}
+.pf-row{cursor:pointer;transition:background .15s}
+.pf-row:hover td{background:#f0fdf4!important}
+.pf-arrow{display:inline-block;font-size:.65rem;margin-right:6px;transition:transform .2s;color:#94a3b8}
+.pf-row.open .pf-arrow{transform:rotate(90deg)}
+.pf-detail{display:none}
+.pf-detail.open{display:table-row}
+.pf-body{padding:8px 16px 12px;background:#f7fef9;border-left:3px solid #86efac}
+.pf-body ul{margin:0 0 8px 16px;font-size:.75rem;color:#334155;line-height:1.55}
+.pf-body ul li{margin-bottom:2px}
+.pf-quotes{border-top:1px solid #dcfce7;padding-top:6px}
+.pf-quotes p{font-size:.72rem;color:#166534;font-style:italic;line-height:1.45;margin-bottom:3px}
+
+/* Strategy Insight table */
+.si-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.si-table th{background:#f8fafc;text-align:left;padding:10px 14px;font-weight:600;color:#475569;border-bottom:2px solid #e2e8f0;white-space:nowrap}
+.si-table td{padding:10px 14px;border-bottom:1px solid #f1f5f9;vertical-align:top;line-height:1.55}
+.si-table tr:hover td{background:#f8fafc}
+.si-type{font-weight:600;white-space:nowrap}
+.si-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.7rem;font-weight:600;line-height:1.3}
+
+/* Usage Scenario table */
+.us-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.us-table th{background:#f8fafc;text-align:left;padding:10px 16px;font-weight:600;color:#475569;border-bottom:2px solid #e2e8f0}
+.us-table td{padding:10px 16px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.us-table tr:hover td{background:#f8fafc}
+.us-label{font-weight:600;color:#1e293b;white-space:nowrap}
+.us-reason{color:#64748b;line-height:1.5}
+.us-pct{text-align:right;white-space:nowrap;color:#1e293b;font-weight:600}
+.us-pct span{display:inline-block;min-width:42px;text-align:right}
+.us-bar-wrap{display:inline-block;width:50px;height:12px;background:#e2e8f0;border-radius:3px;overflow:hidden;vertical-align:middle;margin-right:8px}
+.us-bar{height:100%;background:#93c5fd;border-radius:3px}
+
+/* Review Browser pills & stars */
+.pill{display:inline-block;padding:2px 7px;border-radius:4px;font-size:.68rem;font-weight:600;margin:1px 2px}
+.pill-red{background:#fef2f2;color:#dc2626}
+.pill-orange{background:#fff7ed;color:#ea580c}
+.pill-amber{background:#fffbeb;color:#d97706}
+.pill-blue{background:#eff6ff;color:#2563eb}
+.pill-purple{background:#faf5ff;color:#7c3aed}
+.s1{display:inline-block;padding:2px 6px;border-radius:4px;background:#fef2f2;color:#dc2626;font-weight:700;font-size:.75rem}
+.s2{display:inline-block;padding:2px 6px;border-radius:4px;background:#fff7ed;color:#ea580c;font-weight:700;font-size:.75rem}
+.review-text{font-size:.78rem;color:#334155;line-height:1.55}
+
+@media(max-width:900px){.cp-charts{grid-template-columns:1fr 1fr}}
+@media(max-width:550px){.cp-charts{grid-template-columns:1fr}.sub-tabs{padding:0 16px}.content{padding:16px}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Allergoff — US Market Analysis Dashboard</h1>
+    <p>Source: X-Ray data &nbsp;·&nbsp; Generated: 2026-03-16 &nbsp;·&nbsp; All figures: 12-month</p>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="show('t1',this)">1 — Main Segments (Total Market)</div>
+  <div class="tab" onclick="show('t2',this)">2 — Reviews / VOC</div>
+</div>
+
+<div class="content">
+
+<!-- ═══════════════════════════════════════════════ TAB 1: Main Segments (Total Market) -->
+<div id="t1" class="panel active">
+<h2>Main Segments — Total Market (12M)</h2>
+
+<!-- Total category KPI -->
+<div class="card" style="border-left:4px solid #1e293b;padding:14px 20px;display:flex;align-items:center;gap:36px;flex-wrap:wrap;margin-bottom:14px">
+  <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;min-width:120px">Total Category</div>
+  <div>
+    <div style="font-size:1.6rem;font-weight:700;color:#1e293b;line-height:1">$42.9M</div>
+    <div style="font-size:.75rem;color:#64748b;margin-top:3px">Revenue · Last 12M</div>
+  </div>
+  <div>
+    <div style="font-size:1.6rem;font-weight:700;color:#1e293b;line-height:1">2,199,336</div>
+    <div style="font-size:.75rem;color:#64748b;margin-top:3px">Units Sold · Last 12M</div>
+  </div>
+  <div>
+    <div style="font-size:1.6rem;font-weight:700;color:#1e293b;line-height:1">10</div>
+    <div style="font-size:.75rem;color:#64748b;margin-top:3px">Segments</div>
+  </div>
+  <div>
+    <div style="font-size:1.6rem;font-weight:700;color:#1e293b;line-height:1">139</div>
+    <div style="font-size:.75rem;color:#64748b;margin-top:3px">ASINs Tracked</div>
+  </div>
+</div>
+
+<!-- Per-segment KPI cards — top 6 -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:22px">
+  <div class="card" style="border-left:4px solid #64748b;padding:14px 16px">
+    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-bottom:10px">Other Pest Control</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+      <div class="kpi" style="box-shadow:none;background:#f8fafc;padding:8px 10px"><div class="kpi-v" style="font-size:.95rem">879,108</div><div class="kpi-l">Units (12M)</div></div>
+      <div class="kpi" style="box-shadow:none;background:#f8fafc;padding:8px 10px"><div class="kpi-v" style="font-size:.95rem">$14.1M</div><div class="kpi-l">Revenue (12M)</div></div>
+    </div>
+  </div>
+  <div class="card" style="border-left:4px solid #dc2626;padding:14px 16px">
+    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#dc2626;margin-bottom:10px">Bed Bug</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+      <div class="kpi" style="box-shadow:none;background:#f8fafc;padding:8px 10px"><div class="kpi-v" style="font-size:.95rem">589,884</div><div class="kpi-l">Units (12M)</div></div>
+      <div class="kpi" style="box-shadow:none;background:#f8fafc;padding:8px 10px"><div class="kpi-v" style="font-size:.95rem">$13.6M</div><div class="kpi-l">Revenue (12M)</div></div>
+    </div>
+  </div>
+  <div class="card" style="border-left:4px solid #2563eb;padding:14px 16px;background:#f8faff">
+    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#2563eb;margin-bottom:10px">Allergen Neutralizer ★</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+      <div class="kpi" style="box-shadow:none;background:#eff6ff;padding:8px 10px"><div class="kpi-v" style="font-size:.95rem">354,060</div><div class="kpi-l">Units (12M)</div></div>
+      <div class="kpi" style="box-shadow:none;background:#eff6ff;padding:8px 10px"><div class="kpi-v" style="font-size:.95rem">$6.1M</div><div class="kpi-l">Revenue (12M)</div></div>
+    </div>
+  </div>
+  <div class="card" style="border-left:4px solid #7c3aed;padding:14px 16px">
+    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#7c3aed;margin-bottom:10px">Dust Mite Specialist</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+      <div class="kpi" style="box-shadow:none;background:#f8fafc;padding:8px 10px"><div class="kpi-v" style="font-size:.95rem">140,664</div><div class="kpi-l">Units (12M)</div></div>
+      <div class="kpi" style="box-shadow:none;background:#f8fafc;padding:8px 10px"><div class="kpi-v" style="font-size:.95rem">$3.6M</div><div class="kpi-l">Revenue (12M)</div></div>
+    </div>
+  </div>
+  <div class="card" style="border-left:4px solid #16a34a;padding:14px 16px">
+    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#16a34a;margin-bottom:10px">Poultry/Farm Mite</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+      <div class="kpi" style="box-shadow:none;background:#f8fafc;padding:8px 10px"><div class="kpi-v" style="font-size:.95rem">43,980</div><div class="kpi-l">Units (12M)</div></div>
+      <div class="kpi" style="box-shadow:none;background:#f8fafc;padding:8px 10px"><div class="kpi-v" style="font-size:.95rem">$2.0M</div><div class="kpi-l">Revenue (12M)</div></div>
+    </div>
+  </div>
+  <div class="card" style="border-left:4px solid #d97706;padding:14px 16px">
+    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#d97706;margin-bottom:10px">Multi-Pest Spray</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+      <div class="kpi" style="box-shadow:none;background:#f8fafc;padding:8px 10px"><div class="kpi-v" style="font-size:.95rem">97,500</div><div class="kpi-l">Units (12M)</div></div>
+      <div class="kpi" style="box-shadow:none;background:#f8fafc;padding:8px 10px"><div class="kpi-v" style="font-size:.95rem">$1.7M</div><div class="kpi-l">Revenue (12M)</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="insight">
+  Other Pest Control leads by unit volume (<strong>879K, 40.0%</strong>) but includes tangential products (Flonase, Tide). Bed Bug is 2nd by revenue (<strong>$13.6M, 31.8%</strong>). <strong>Allergoff's direct competitive segment — Allergen Neutralizer — is 3rd at $6.1M (14.3%)</strong>, with Dust Mite Specialist adding another $3.6M (8.4%) of closely adjacent market. 4 smaller segments (Flea &amp; Tick, General Mite Spray, Lice Treatment, Skin Mite) combine for $1.7M (3.9%).
+</div>
+
+<div class="note" style="margin-bottom:18px">
+  12M figures projected from 30-day X-Ray snapshot (exported ~Mar 2026) &times; 12 = 12M estimate. Seasonality index range: 0.82x (Mar trough) to 1.22x (Jul peak).
+</div>
+
+<!-- Segment pies -->
+<div class="g2" style="align-items:start">
+  <div class="card">
+    <h3>Revenue by Segment (12M)</h3>
+    <div style="font-size:1.1rem;font-weight:700;color:#1e293b;margin-top:2px">$42.9M</div>
+    <div class="cw" style="height:300px"><canvas id="focusRevPie"></canvas></div>
+  </div>
+  <div class="card">
+    <h3>Units by Segment (12M)</h3>
+    <div style="font-size:1.1rem;font-weight:700;color:#1e293b;margin-top:2px">2,199,336</div>
+    <div class="cw" style="height:300px"><canvas id="focusUnitsPie"></canvas></div>
+  </div>
+</div>
+
+<!-- Segment summary table -->
+<div class="card">
+  <h3>Segment Summary (12M)</h3>
+  <div class="tbl-wrap"><table class="num-right" id="segSummaryTable">
+    <thead><tr>
+      <th style="text-align:left">Segment</th>
+      <th>Units (12M)</th>
+      <th>Revenue (12M)</th>
+      <th>Unit Share</th>
+      <th>Rev Share</th>
+      <th>Relevance</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="badge" style="background:#f1f5f9;color:#475569">Other Pest Control</span></td>
+        <td data-val="879108">879,108</td>
+        <td data-val="14134471">$14,134,471</td>
+        <td data-val="40.0">40.0%</td>
+        <td data-val="33.0">33.0%</td>
+        <td style="font-size:.68rem;color:#64748b">Tangential</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#fee2e2;color:#dc2626">Bed Bug</span></td>
+        <td data-val="589884">589,884</td>
+        <td data-val="13645799">$13,645,799</td>
+        <td data-val="26.8">26.8%</td>
+        <td data-val="31.8">31.8%</td>
+        <td style="font-size:.68rem;color:#64748b">Indirect</td>
+      </tr>
+      <tr style="background:#f0f5ff">
+        <td><span class="badge" style="background:#dbeafe;color:#1d4ed8">Allergen Neutralizer ★</span></td>
+        <td data-val="354060">354,060</td>
+        <td data-val="6106999">$6,106,999</td>
+        <td data-val="16.1">16.1%</td>
+        <td data-val="14.3">14.3%</td>
+        <td style="font-size:.68rem;color:#2563eb;font-weight:600">Direct</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#ede9fe;color:#6d28d9">Dust Mite Specialist</span></td>
+        <td data-val="140664">140,664</td>
+        <td data-val="3580305">$3,580,305</td>
+        <td data-val="6.4">6.4%</td>
+        <td data-val="8.4">8.4%</td>
+        <td style="font-size:.68rem;color:#7c3aed;font-weight:600">Close</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#dcfce7;color:#15803d">Poultry/Farm Mite</span></td>
+        <td data-val="43980">43,980</td>
+        <td data-val="1951959">$1,951,959</td>
+        <td data-val="2.0">2.0%</td>
+        <td data-val="4.6">4.6%</td>
+        <td style="font-size:.68rem;color:#64748b">Different market</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#fef3c7;color:#92400e">Multi-Pest Spray</span></td>
+        <td data-val="97500">97,500</td>
+        <td data-val="1746090">$1,746,090</td>
+        <td data-val="4.4">4.4%</td>
+        <td data-val="4.1">4.1%</td>
+        <td style="font-size:.68rem;color:#64748b">Partial overlap</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#e0f2fe;color:#0891b2">Flea &amp; Tick</span></td>
+        <td data-val="17472">17,472</td>
+        <td data-val="559198">$559,198</td>
+        <td data-val="0.8">0.8%</td>
+        <td data-val="1.3">1.3%</td>
+        <td style="font-size:.68rem;color:#64748b">Different market</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#e0f2fe;color:#0369a1">General Mite Spray</span></td>
+        <td data-val="51648">51,648</td>
+        <td data-val="517675">$517,675</td>
+        <td data-val="2.3">2.3%</td>
+        <td data-val="1.2">1.2%</td>
+        <td style="font-size:.68rem;color:#64748b">Partial overlap</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#f1f5f9;color:#475569">Lice Treatment</span></td>
+        <td data-val="15816">15,816</td>
+        <td data-val="427509">$427,509</td>
+        <td data-val="0.7">0.7%</td>
+        <td data-val="1.0">1.0%</td>
+        <td style="font-size:.68rem;color:#64748b">Different market</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#fef3c7;color:#92400e">Skin Mite</span></td>
+        <td data-val="9204">9,204</td>
+        <td data-val="183831">$183,831</td>
+        <td data-val="0.4">0.4%</td>
+        <td data-val="0.4">0.4%</td>
+        <td style="font-size:.68rem;color:#64748b">Different market</td>
+      </tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- Brand Share — Allergen Neutralizer -->
+<h2 style="margin-top:28px">Brand Share — Allergen Neutralizer (Allergoff's Core Segment)</h2>
+<div class="g2" style="align-items:start">
+  <div class="card">
+    <h3>Brand Share — Allergen Neutralizer (Units, 12M)</h3>
+    <div class="cw" style="height:340px"><canvas id="seg1BrandUnitPie"></canvas></div>
+  </div>
+  <div class="card">
+    <h3>Brand Share — Allergen Neutralizer (Revenue, 12M)</h3>
+    <div class="cw" style="height:340px"><canvas id="seg1BrandRevPie"></canvas></div>
+  </div>
+</div>
+
+<!-- Brand Share — Dust Mite Specialist -->
+<h2 style="margin-top:28px">Brand Share — Dust Mite Specialist (Closest Adjacent Segment)</h2>
+<div class="g2" style="align-items:start">
+  <div class="card">
+    <h3>Brand Share — Dust Mite Specialist (Units, 12M)</h3>
+    <div class="cw" style="height:340px"><canvas id="seg2BrandUnitPie"></canvas></div>
+  </div>
+  <div class="card">
+    <h3>Brand Share — Dust Mite Specialist (Revenue, 12M)</h3>
+    <div class="cw" style="height:340px"><canvas id="seg2BrandRevPie"></canvas></div>
+  </div>
+</div>
+
+<!-- Brand Share — General Mite Spray -->
+<h2 style="margin-top:28px">Brand Share — General Mite Spray</h2>
+<div class="g2" style="align-items:start">
+  <div class="card">
+    <h3>Brand Share — General Mite Spray (Units, 12M)</h3>
+    <div class="cw" style="height:340px"><canvas id="seg3BrandUnitPie"></canvas></div>
+  </div>
+  <div class="card">
+    <h3>Brand Share — General Mite Spray (Revenue, 12M)</h3>
+    <div class="cw" style="height:340px"><canvas id="seg3BrandRevPie"></canvas></div>
+  </div>
+</div>
+
+<!-- Brand Share Line Chart -->
+<h2 style="margin-top:28px">% Unit Share — Brand vs. Total (Allergen Neutralizer + Dust Mite Specialist + General Mite Spray)</h2>
+<div class="card">
+  <h3>% Unit Share — Brand vs. Total (12M)</h3>
+  <div class="cw" style="height:420px"><canvas id="brandShareLineChart"></canvas></div>
+  <div class="note">Monthly unit share per brand as % of total market units across 3 core segments (Mar 2025 – Feb 2026). Based on 13 ASINs with daily sales data. Total units by month: Mar=23.2K · Apr=25.6K · May=32.4K · Jun=38.2K · Jul=37.7K · Aug=42.2K · Sep=36.0K · Oct=35.2K · Nov=35.2K · Dec=29.7K · Jan=25.5K · Feb=22.8K. Click legend to show/hide brand.</div>
+</div>
+
+<!-- Market Seasonality -->
+<h2 style="margin-top:28px">Monthly Seasonality Index — Overall Market (1.0 = average month)</h2>
+
+<div class="kpis" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));margin-top:12px">
+  <div class="kpi"><div class="kpi-v" style="color:#15803d">Jul</div><div class="kpi-l">Peak Month (1.22x)</div></div>
+  <div class="kpi"><div class="kpi-v" style="color:#dc2626">Mar</div><div class="kpi-l">Trough Month (0.82x)</div></div>
+  <div class="kpi"><div class="kpi-v">1.49x</div><div class="kpi-l">Peak / Trough Ratio</div></div>
+</div>
+<div class="card" style="margin-top:10px">
+  <h3>Monthly Seasonality Index (1.0 = average month) &nbsp;
+    <span style="font-size:.7rem;color:#16a34a">&#9632; Peak</span>&nbsp;
+    <span style="font-size:.7rem;color:#dc2626">&#9632; Trough</span>
+  </h3>
+  <div class="cw" style="height:220px"><canvas id="seasChart"></canvas></div>
+  <div class="note">Seasonality based on 2-year daily sales data (29 products, Mar 2024 – Mar 2026). Summer peak driven by allergen/mite activity. Market is moderately seasonal — 1.49x peak-to-trough.</div>
+</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════ TAB 2: Reviews / VOC -->
+<div id="t2" class="panel">
+
+<!-- KPI ROW + STAR BAR -->
+<div class="kpis" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
+  <div class="kpi"><div class="kpi-v">0</div><div class="kpi-l">Total Reviews</div></div>
+  <div class="kpi"><div class="kpi-v" style="color:#0f2942">0 : 0</div><div class="kpi-l">Sentiment Ratio (pos:neg)</div></div>
+  <div class="kpi"><div class="kpi-v" style="color:#16a34a">0%</div><div class="kpi-l">Positive (4&#9733;+5&#9733;)</div></div>
+  <div class="kpi"><div class="kpi-v" style="color:#dc2626">0%</div><div class="kpi-l">Negative (1&#9733;-3&#9733;)</div></div>
+</div>
+
+<!-- Star Distribution Bar -->
+<div class="card" style="padding:12px 16px;margin-bottom:20px">
+  <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+    <div style="font-size:.78rem;font-weight:600;color:#475569;white-space:nowrap">Star Distribution</div>
+    <div style="font-size:1.1rem;font-weight:800;color:#0f2942">0.00 <span style="font-size:.7rem;font-weight:400;color:#64748b">avg</span></div>
+    <div id="starBar" style="flex:1;display:flex;height:22px;border-radius:4px;overflow:hidden;min-width:200px"></div>
+    <div id="starLegend" style="display:flex;gap:10px;flex-wrap:wrap;font-size:.68rem;color:#475569"></div>
+  </div>
+</div>
+
+<!-- SUB-TAB BAR -->
+<div class="sub-tabs" style="margin:0 -32px;padding:0 32px">
+  <div class="sub-tab active" onclick="showSubTab('ci',this)">Customer Insights</div>
+  <div class="sub-tab" onclick="showSubTab('ca',this)">Review Browser</div>
+</div>
+
+<!-- ═══════════════════════════ SUB-PANEL: Customer Insights ═══════════════════════════ -->
+<div id="ci" class="sub-panel active">
+
+<!-- Anchor navigation -->
+<div class="anchor-nav" id="anchorNav">
+  <a href="#sec-cp" class="active" onclick="scrollToSection(event,'sec-cp',this)">Customer Profile</a>
+  <a href="#sec-us" onclick="scrollToSection(event,'sec-us',this)">Usage Scenario</a>
+  <a href="#sec-cs" onclick="scrollToSection(event,'sec-cs',this)">Customer Sentiment</a>
+  <a href="#sec-bm" onclick="scrollToSection(event,'sec-bm',this)">Buyers Motivation</a>
+  <a href="#sec-ce" onclick="scrollToSection(event,'sec-ce',this)">Customer Expectations</a>
+</div>
+
+<!-- SECTION: Customer Profile -->
+<div id="sec-cp">
+  <div class="sec-header">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <div class="sec-title">Customer Profile</div>
+  </div>
+  <div class="sec-summary" id="cpSummary">Placeholder — update with actual Allergoff customer profile data.</div>
+
+  <div class="cp-charts">
+    <div class="cp-chart-box"><h4>Who</h4><div class="cp-chart-wrap"><canvas id="cpWho"></canvas></div></div>
+    <div class="cp-chart-box"><h4>When</h4><div class="cp-chart-wrap"><canvas id="cpWhen"></canvas></div></div>
+    <div class="cp-chart-box"><h4>Where</h4><div class="cp-chart-wrap"><canvas id="cpWhere"></canvas></div></div>
+    <div class="cp-chart-box"><h4>What</h4><div class="cp-chart-wrap"><canvas id="cpWhat"></canvas></div></div>
+  </div>
+  <div class="cp-legend">X-axis: topic &middot; Y-axis: mentions &middot; <span style="color:#22c55e">&#9724;</span> reviews of 4-5 stars &middot; <span style="color:#ef4444">&#9724;</span> reviews of 1-3 stars</div>
+</div>
+
+<!-- SECTION: Usage Scenario -->
+<div id="sec-us" style="margin-top:36px">
+  <div class="sec-header">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+    <div class="sec-title">Usage Scenario</div>
+  </div>
+  <div class="sec-summary">Digging into the real usage scenarios of consumers, discovering opportunities, and optimizing marketing content.</div>
+
+  <div class="card" style="padding:0;overflow:hidden">
+    <table class="us-table">
+      <thead><tr><th style="width:22%">Usage Scenario</th><th>Reason</th><th style="width:120px;text-align:right">Percentage</th></tr></thead>
+      <tbody>
+        <tr><td class="us-label">Placeholder scenario 1</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:100%"></div></div><span>0%</span></td></tr>
+        <tr><td class="us-label">Placeholder scenario 2</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:50%"></div></div><span>0%</span></td></tr>
+        <tr><td class="us-label">Placeholder scenario 3</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:30%"></div></div><span>0%</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SECTION: Customer Sentiment -->
+<div id="sec-cs" style="margin-top:36px">
+  <div class="sec-header">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+    <div class="sec-title">Customer Sentiment</div>
+  </div>
+  <div class="sec-summary">Analyzing what drives negative and positive experiences, uncovering recurring complaint patterns and satisfaction drivers.</div>
+
+  <!-- NEGATIVE FEEDBACK BLOCK -->
+  <div class="cs-neg-zone">
+    <div class="card" style="padding:0;overflow:hidden;border:1.5px solid #fecaca">
+      <table class="us-table" id="csTableA">
+        <thead><tr style="background:#fef2f2"><th style="width:22%;border-left:3px solid #dc2626">Negative Feedback Topic</th><th>Reasons for Negative Feedback</th><th style="width:110px;text-align:right">Percentage</th></tr></thead>
+        <tbody>
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Placeholder topic 1</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:100%;background:#fca5a5"></div></div><span>0%</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Placeholder detail</li></ul><div class="nf-quotes"><p>"Placeholder quote"</p></div></div></td></tr>
+
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Placeholder topic 2</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:50%;background:#fca5a5"></div></div><span>0%</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Placeholder detail</li></ul><div class="nf-quotes"><p>"Placeholder quote"</p></div></div></td></tr>
+
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Placeholder topic 3</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:30%;background:#fca5a5"></div></div><span>0%</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Placeholder detail</li></ul><div class="nf-quotes"><p>"Placeholder quote"</p></div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Negative Review Insights -->
+    <div class="card" style="margin-top:22px;border:1.5px solid #fca5a5">
+      <div class="sec-header" style="margin-bottom:10px">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+        <div class="sec-title">Negative Review Insights — CPG / Amazon Product Strategy</div>
+      </div>
+      <table class="si-table">
+        <thead><tr><th style="width:130px">Analysis Type</th><th>Finding</th><th>Strategic Implication</th></tr></thead>
+        <tbody>
+          <tr><td><span class="si-badge" style="background:#fee2e2;color:#991b1b">Placeholder</span></td><td>Placeholder finding</td><td>Placeholder implication</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div><!-- /cs-neg-zone -->
+
+  <!-- POSITIVE FEEDBACK BLOCK -->
+  <div class="cs-pos-zone">
+    <div class="card" style="padding:0;overflow:hidden;border:1.5px solid #bbf7d0">
+      <table class="us-table" id="csTablePos">
+        <thead><tr style="background:#f0fdf4"><th style="width:22%;border-left:3px solid #16a34a">Positive Feedback Topic</th><th>Reasons for Positive Feedback</th><th style="width:110px;text-align:right">Percentage</th></tr></thead>
+        <tbody>
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Placeholder topic 1</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:100%;background:#86efac"></div></div><span>0%</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Placeholder detail</li></ul><div class="pf-quotes"><p>"Placeholder quote"</p></div></div></td></tr>
+
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Placeholder topic 2</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:50%;background:#86efac"></div></div><span>0%</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Placeholder detail</li></ul><div class="pf-quotes"><p>"Placeholder quote"</p></div></div></td></tr>
+
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Placeholder topic 3</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:30%;background:#86efac"></div></div><span>0%</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Placeholder detail</li></ul><div class="pf-quotes"><p>"Placeholder quote"</p></div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Positive Review Insights -->
+    <div class="card" style="margin-top:22px">
+      <div class="sec-header" style="margin-bottom:10px">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+        <div class="sec-title">Positive Review Insights — CPG / Amazon Product Strategy</div>
+      </div>
+      <table class="si-table">
+        <thead><tr><th style="width:130px">Analysis Type</th><th>Finding</th><th>Strategic Implication</th></tr></thead>
+        <tbody>
+          <tr><td><span class="si-badge" style="background:#dbeafe;color:#1e40af">Placeholder</span></td><td>Placeholder finding</td><td>Placeholder implication</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div><!-- /cs-pos-zone -->
+</div><!-- /sec-cs -->
+
+<!-- SECTION: Buyers Motivation -->
+<div id="sec-bm" style="margin-top:36px">
+  <div class="sec-header">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    <div class="sec-title">Buyers Motivation</div>
+  </div>
+  <div class="sec-summary">Gain insight into the judgment of consumers when making purchase decisions, and optimize marketing strategies in a targeted manner.</div>
+
+  <div class="card" style="padding:0;overflow:hidden">
+    <table class="us-table">
+      <thead><tr><th style="width:22%">Buyers Motivation</th><th>Reasons for buyers motivation</th><th style="width:110px;text-align:right">Percentage</th></tr></thead>
+      <tbody>
+        <tr><td class="us-label">Placeholder motivation 1</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:46%;background:#93c5fd"></div></div><span>0%</span></td></tr>
+        <tr><td class="us-label">Placeholder motivation 2</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:28%;background:#93c5fd"></div></div><span>0%</span></td></tr>
+        <tr><td class="us-label">Placeholder motivation 3</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:18%;background:#93c5fd"></div></div><span>0%</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SECTION: Customer Expectations -->
+<div id="sec-ce" style="margin-top:36px">
+  <div class="sec-header">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <div class="sec-title">Customer Expectations</div>
+  </div>
+  <div class="sec-summary">By understanding the specific reasons, manufacturers and retailers can develop products and marketing strategies that effectively address these needs and wants.</div>
+
+  <div class="card" style="padding:0;overflow:hidden">
+    <table class="us-table">
+      <thead><tr><th style="width:22%">Customer Unmet Needs</th><th>Reason for Customer Unmet Needs</th><th style="width:110px;text-align:right">Percentage</th></tr></thead>
+      <tbody>
+        <tr><td class="us-label">Placeholder need 1</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:34%;background:#93c5fd"></div></div><span>0%</span></td></tr>
+        <tr><td class="us-label">Placeholder need 2</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:24%;background:#93c5fd"></div></div><span>0%</span></td></tr>
+        <tr><td class="us-label">Placeholder need 3</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:12%;background:#93c5fd"></div></div><span>0%</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- /ci sub-panel -->
+
+<!-- ═══════════════════════════ SUB-PANEL: Review Browser ═══════════════════════════ -->
+<div id="ca" class="sub-panel">
+  <div class="card">
+    <h3>Review Browser <span style="font-size:.72rem;font-weight:400;color:#64748b;margin-left:8px">Filter by rating, theme, or keyword</span></h3>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+      <select id="filterRating" onchange="filterReviews()" style="font-size:.73rem;border:1.5px solid #cbd5e1;border-radius:5px;padding:4px 8px;background:#fff">
+        <option value="">All Ratings</option>
+        <option value="1">1&#9733; only</option><option value="2">2&#9733; only</option><option value="3">3&#9733; only</option><option value="4">4&#9733; only</option><option value="5">5&#9733; only</option>
+      </select>
+      <select id="filterTheme" onchange="filterReviews()" style="font-size:.73rem;border:1.5px solid #cbd5e1;border-radius:5px;padding:4px 8px;background:#fff">
+        <option value="">All Themes</option>
+      </select>
+      <input id="filterSearch" oninput="filterReviews()" placeholder="Search keyword..." style="font-size:.73rem;border:1.5px solid #cbd5e1;border-radius:5px;padding:4px 8px;width:160px">
+      <button onclick="clearFilters()" style="font-size:.73rem;border:1.5px solid #cbd5e1;border-radius:5px;padding:4px 10px;background:#f8fafc;cursor:pointer">Clear</button>
+    </div>
+    <div id="resultCount" style="font-size:.72rem;color:#64748b;margin-bottom:6px"></div>
+    <div class="tbl-wrap" style="max-height:520px">
+      <table id="reviewTable"><thead><tr><th style="width:40px">&#9733;</th><th>Review</th></tr></thead><tbody id="reviewBody"></tbody></table>
+    </div>
+  </div>
+</div><!-- /ca sub-panel -->
+
+<!-- END reviews-voc sub-panels -->
+
+</div><!-- END TAB 2 Reviews / VOC -->
+
+</div><!-- /content -->
+
+<script>
+// ── Tab switching ────────────────────────────────────────────────────────────
+function show(id, tab) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  tab.classList.add('active');
+  setTimeout(() => Object.values(Chart.instances).forEach(c => c.resize()), 50);
+}
+
+// ── Table sort ───────────────────────────────────────────────────────────────
+function sortTbl(tblId, col, th) {
+  const tbl = document.getElementById(tblId);
+  const tbody = tbl.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const asc = th.dataset.asc !== 'true';
+  th.dataset.asc = asc;
+  rows.sort((a, b) => {
+    const av = a.cells[col].dataset.val ?? a.cells[col].textContent.replace(/[$,%\s]/g,'');
+    const bv = b.cells[col].dataset.val ?? b.cells[col].textContent.replace(/[$,%\s]/g,'');
+    const an = parseFloat(av.replace(/,/g,''));
+    const bn = parseFloat(bv.replace(/,/g,''));
+    if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
+    return asc ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+
+// ── Colors ───────────────────────────────────────────────────────────────────
+const C10 = ['#2563eb','#16a34a','#d97706','#dc2626','#7c3aed','#0891b2','#ea580c','#0d9488','#94a3b8'];
+const SEG_CLR = ['#16a34a','#dc2626'];
+
+// ── Chart helpers ────────────────────────────────────────────────────────────
+function makePie(id, labels, data, colors, fmtLeg, fmtTip) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const total = data.reduce((a,b) => a+b, 0);
+  new Chart(el, {
+    type: 'pie',
+    plugins: [ChartDataLabels],
+    data: { labels, datasets: [{ data, backgroundColor: colors }] },
+    options: {
+      maintainAspectRatio: false,
+      layout: { padding: { top:10, left:10, right:10, bottom:10 } },
+      plugins: {
+        legend: {
+          display: true, position: 'left',
+          labels: {
+            font: { size: 11 }, boxWidth: 12, padding: 8,
+            generateLabels: chart => {
+              const ds = chart.data.datasets[0].data;
+              return labels.map((lbl, i) => ({
+                text: lbl + ' — ' + fmtLeg(ds[i]) + ' (' + Math.round(ds[i]/total*100) + '%)',
+                fillStyle: colors[i], strokeStyle: colors[i], lineWidth: 0, hidden: false, index: i
+              }));
+            }
+          }
+        },
+        datalabels: {
+          formatter: (v) => { const pct = Math.round(v/total*100); return pct >= 5 ? pct + '%' : null; },
+          color: '#fff', font: { weight: 'bold', size: 11 }
+        },
+        tooltip: { callbacks: { label: ctx => ctx.label + ': ' + fmtTip(ctx.raw) + ' (' + (ctx.raw/total*100).toFixed(1) + '%)' } }
+      }
+    }
+  });
+}
+
+function makeVBar(id, labels, data, colors, fmtTip, yTickFmt) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el, {
+    type: 'bar',
+    data: { labels, datasets: [{ data, backgroundColor: colors, borderRadius: 3 }] },
+    options: {
+      maintainAspectRatio: false,
+      plugins: { legend:{display:false}, datalabels:{display:false}, tooltip:{callbacks:{label:ctx=>fmtTip(ctx.raw)}} },
+      scales: { y:{ticks:{callback:yTickFmt,font:{size:10}}}, x:{ticks:{font:{size:11}}} }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TAB 1 Charts — Real data from X-Ray + Seasonality model
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const SEG_LABELS = ['Other Pest Control','Bed Bug','Allergen Neutralizer','Dust Mite Specialist','Poultry/Farm Mite','Multi-Pest Spray','Flea & Tick','General Mite Spray','Lice Treatment','Skin Mite'];
+const SEG_COLORS = ['#64748b','#dc2626','#2563eb','#7c3aed','#16a34a','#d97706','#0891b2','#0369a1','#475569','#92400e'];
+const SEG_REV = [14134471,13645799,6106999,3580305,1951959,1746090,559198,517675,427509,183831];
+const SEG_UNITS = [879108,589884,354060,140664,43980,97500,17472,51648,15816,9204];
+
+// Revenue by Segment
+makePie('focusRevPie', SEG_LABELS, SEG_REV, SEG_COLORS,
+  v => '$' + (v/1e6).toFixed(1) + 'M', v => '$' + v.toLocaleString());
+
+// Units by Segment
+makePie('focusUnitsPie', SEG_LABELS, SEG_UNITS, SEG_COLORS,
+  v => v.toLocaleString(), v => v.toLocaleString() + ' units');
+
+// Brand Share — Allergen Neutralizer (Units)
+const AN_BRANDS = ['Pacagen','Allergy Asthma Clean','Clorox','The Ecology Works','Allersearch','Endust','LivePure'];
+const AN_CLR = ['#7c3aed','#2563eb','#dc2626','#16a34a','#d97706','#0891b2','#94a3b8'];
+makePie('seg1BrandUnitPie', AN_BRANDS,
+  [31044,70656,180720,30720,17808,18384,4728], AN_CLR,
+  v => v.toLocaleString(), v => v.toLocaleString() + ' units');
+
+// Brand Share — Allergen Neutralizer (Revenue)
+makePie('seg1BrandRevPie', AN_BRANDS,
+  [1983343,1557895,1093836,641261,556048,180101,94514], AN_CLR,
+  v => '$' + (v/1e6).toFixed(2) + 'M', v => '$' + v.toLocaleString());
+
+// Brand Share — Bed Bug (Units)
+const DM_BRANDS = ['The Ecology Works','Naturasil','Premo Guard','Green Bean Buddy','Hygea Natural','EcoVenger','DeMite','RID','HOT SHOT','ECOPEST','Natural Armor'];
+const DM_CLR = ['#16a34a','#dc2626','#2563eb','#7c3aed','#d97706','#0891b2','#ea580c','#0d9488','#64748b','#f59e0b','#94a3b8'];
+makePie('seg2BrandUnitPie', DM_BRANDS,
+  [35904,26184,11568,5280,7644,13104,5376,15864,14352,4188,1200], DM_CLR,
+  v => v.toLocaleString(), v => v.toLocaleString() + ' units');
+
+// Brand Share — Dust Mite Specialist (Revenue)
+makePie('seg2BrandRevPie', DM_BRANDS,
+  [784855,768623,570828,292357,256710,248375,222536,158622,133261,96345,47792], DM_CLR,
+  v => '$' + (v/1e3).toFixed(0) + 'K', v => '$' + v.toLocaleString());
+
+// Brand Share — General Mite Spray
+const GM_BRANDS = ['Bonide','Colton\'s Naturals','Vetforce'];
+const GM_CLR = ['#2563eb','#16a34a','#d97706'];
+makePie('seg3BrandUnitPie', GM_BRANDS,
+  [46956,3768,924], GM_CLR,
+  v => v.toLocaleString(), v => v.toLocaleString() + ' units');
+
+makePie('seg3BrandRevPie', GM_BRANDS,
+  [415597,75222,26856], GM_CLR,
+  v => '$' + (v/1e3).toFixed(0) + 'K', v => '$' + v.toLocaleString());
+
+// Brand Share Line Chart — 3 core segments
+(function() {
+  const el = document.getElementById('brandShareLineChart');
+  if (!el) return;
+  const months = ["Mar'25","Apr'25","May'25","Jun'25","Jul'25","Aug'25","Sep'25","Oct'25","Nov'25","Dec'25","Jan'26","Feb'26"];
+  const ds = [
+    { label:'Bonide', data:[13.7,22.1,32.6,36.3,34.8,34.6,26.7,24.2,21.1,16.3,15.4,18.3], borderColor:'#2563eb', borderWidth:2.5 },
+    { label:'Allergy Asthma Clean', data:[29.8,24.3,19.1,16.2,15.2,17.6,22.7,21.0,25.9,30.6,26.0,24.5], borderColor:'#16a34a', borderWidth:2.5 },
+    { label:'The Ecology Works', data:[17.6,14.4,12.7,10.1,13.1,12.6,16.3,17.8,20.6,21.6,21.7,21.6], borderColor:'#d97706', borderWidth:2.5 },
+    { label:'Naturasil', data:[14.4,14.1,16.5,16.5,14.6,13.4,12.5,13.3,16.2,13.3,13.8,12.0], borderColor:'#dc2626', borderWidth:2.5 },
+    { label:'RID', data:[10.5,9.2,6.5,6.2,6.0,5.6,7.3,8.9,6.3,4.2,8.5,5.9], borderColor:'#7c3aed', borderWidth:1.8 },
+    { label:'HOT SHOT', data:[4.8,7.8,6.2,7.1,8.2,9.1,7.5,8.3,3.8,6.4,4.4,4.9], borderColor:'#0891b2', borderWidth:1.8 },
+    { label:'Allersearch', data:[5.9,5.4,4.8,5.4,4.8,4.5,4.4,4.2,4.3,5.0,5.2,5.4], borderColor:'#ea580c', borderWidth:1.8, borderDash:[5,3] },
+    { label:'EcoVenger', data:[1.4,1.3,1.2,1.1,1.3,1.1,1.2,0.5,0.2,0.3,1.4,4.0], borderColor:'#64748b', borderWidth:1.8, borderDash:[5,3] },
+    { label:'Pacagen', data:[1.3,1.1,0.3,1.0,1.8,1.2,0.8,0.9,0.8,1.0,1.4,1.4], borderColor:'#be185d', borderWidth:1.8, borderDash:[5,3] },
+    { label:'Hygea Natural', data:[0.6,0.2,0.1,0.2,0.2,0.3,0.6,0.9,0.9,1.2,2.1,2.0], borderColor:'#0d9488', borderWidth:1.8, borderDash:[5,3] }
+  ];
+  ds.forEach(d => { d.backgroundColor = 'transparent'; d.tension = 0.3; d.pointRadius = 3; d.pointHoverRadius = 5; });
+  new Chart(el, {
+    type: 'line',
+    data: { labels: months, datasets: ds },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position:'bottom', labels:{ font:{size:11}, padding:12, boxWidth:20 } },
+        datalabels: { display:false },
+        tooltip: { mode:'index', intersect:false, callbacks:{ label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%' } }
+      },
+      scales: {
+        y: { min:0, max:40, ticks:{ callback: v => v + '%', stepSize:10 }, grid:{ color:'#e2e8f0' } },
+        x: { grid:{ display:false } }
+      }
+    }
+  });
+})();
+
+// Market Seasonality
+(function() {
+  const el = document.getElementById('seasChart');
+  if (!el) return;
+  const labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const idx = [0.8373,0.8714,0.8241,0.8572,0.9577,1.1038,1.2246,1.1627,1.1195,1.0914,1.0528,0.8959];
+  const colors = idx.map(v => v >= 1.1 ? '#16a34a' : v <= 0.86 ? '#dc2626' : '#2563eb');
+  new Chart(el, {
+    type: 'bar',
+    data: { labels, datasets: [{ data: idx, backgroundColor: colors, label: 'Index' }] },
+    plugins: [ChartDataLabels],
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        datalabels: {
+          anchor: 'end', align: 'end',
+          formatter: v => v.toFixed(2) + 'x',
+          color: '#334155', font: { size: 10, weight: '600' }
+        }
+      },
+      scales: {
+        y: { min: 0, max: 1.5, ticks: { callback: v => v.toFixed(1) + 'x' }, grid: { color: '#e2e8f0' } }
+      }
+    }
+  });
+})();
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TAB 2 — Reviews VOC JS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Sub-tab switching
+function showSubTab(id, el) {
+  document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sub-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// Anchor scroll
+function scrollToSection(e, id, el) {
+  e.preventDefault();
+  const target = document.getElementById(id);
+  if (target) {
+    const stickyOffset = 90;
+    const y = target.getBoundingClientRect().top + window.pageYOffset - stickyOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+  document.querySelectorAll('.anchor-nav a').forEach(a => a.classList.remove('active'));
+  if (el) el.classList.add('active');
+}
+
+// Expandable rows — negative
+function toggleNF(row) {
+  var detail = row.nextElementSibling;
+  var isOpen = row.classList.contains('open');
+  document.querySelectorAll('.nf-row.open').forEach(function(r) {
+    r.classList.remove('open');
+    r.nextElementSibling.classList.remove('open');
+  });
+  if (!isOpen) { row.classList.add('open'); detail.classList.add('open'); }
+}
+
+// Expandable rows — positive
+function togglePF(row) {
+  var detail = row.nextElementSibling;
+  var isOpen = row.classList.contains('open');
+  document.querySelectorAll('.pf-row.open').forEach(function(r) {
+    r.classList.remove('open');
+    r.nextElementSibling.classList.remove('open');
+  });
+  if (!isOpen) { row.classList.add('open'); detail.classList.add('open'); }
+}
+
+// Star distribution bar — placeholder
+(function buildStarBar() {
+  const dist = [
+    { star: 1, count: 0, color: '#dc2626' },
+    { star: 2, count: 0, color: '#ea580c' },
+    { star: 3, count: 0, color: '#f59e0b' },
+    { star: 4, count: 0, color: '#22c55e' },
+    { star: 5, count: 0, color: '#16a34a' }
+  ];
+  const total = dist.reduce((s, d) => s + d.count, 0) || 1;
+  const bar = document.getElementById('starBar');
+  const legend = document.getElementById('starLegend');
+  if (!bar || !legend) return;
+  bar.innerHTML = dist.map(d => {
+    const pct = (d.count / total * 100).toFixed(1);
+    return '<div style="width:' + (d.count ? pct : 20) + '%;background:' + d.color + ';display:flex;align-items:center;justify-content:center;color:#fff;font-size:.68rem;font-weight:600">' + pct + '%</div>';
+  }).join('');
+  legend.innerHTML = dist.map(d =>
+    '<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + d.color + ';margin-right:3px"></span>' + d.star + '&#9733; ' + d.count + '</span>'
+  ).join('');
+})();
+
+// Customer Profile charts — placeholder
+(function buildCustomerProfile() {
+  const cpData = {
+    who:   { labels: ['placeholder'], pos: [0], neg: [0] },
+    when:  { labels: ['placeholder'], pos: [0], neg: [0] },
+    where: { labels: ['placeholder'], pos: [0], neg: [0] },
+    what:  { labels: ['placeholder'], pos: [0], neg: [0] }
+  };
+  function makeStackedBar(canvasId, labels, posData, negData) {
+    const ctx = document.getElementById(canvasId);
+    if (!ctx) return;
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          { label: '4-5 stars', data: posData, backgroundColor: '#22c55e', borderRadius: { topLeft: 3, topRight: 3 }, barPercentage: 0.7 },
+          { label: '1-3 stars', data: negData.map(v => -v), backgroundColor: '#ef4444', borderRadius: { bottomLeft: 3, bottomRight: 3 }, barPercentage: 0.7 }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, datalabels: { display: false }, tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': ' + Math.abs(ctx.raw); } } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#64748b', maxRotation: 35 } },
+          y: { grid: { color: '#f1f5f9', drawBorder: false }, ticks: { font: { size: 10 }, color: '#94a3b8', callback: function(v) { return Math.abs(v); } } }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+  }
+  makeStackedBar('cpWho',   cpData.who.labels,   cpData.who.pos,   cpData.who.neg);
+  makeStackedBar('cpWhen',  cpData.when.labels,  cpData.when.pos,  cpData.when.neg);
+  makeStackedBar('cpWhere', cpData.where.labels, cpData.where.pos, cpData.where.neg);
+  makeStackedBar('cpWhat',  cpData.what.labels,  cpData.what.pos,  cpData.what.neg);
+})();
+
+// Review Browser — placeholder (empty)
+(function reviewBrowserInit() {
+  var REVIEWS = [];
+  var THEMES = {};
+
+  var STAR_BADGES = {
+    1: '<span style="display:inline-block;padding:2px 6px;border-radius:4px;background:#fef2f2;color:#dc2626;font-weight:700;font-size:.75rem">1\u2605</span>',
+    2: '<span style="display:inline-block;padding:2px 6px;border-radius:4px;background:#fff7ed;color:#ea580c;font-weight:700;font-size:.75rem">2\u2605</span>',
+    3: '<span style="display:inline-block;padding:2px 6px;border-radius:4px;background:#fffbeb;color:#d97706;font-weight:700;font-size:.75rem">3\u2605</span>',
+    4: '<span style="display:inline-block;padding:2px 6px;border-radius:4px;background:#f0fdf4;color:#22c55e;font-weight:700;font-size:.75rem">4\u2605</span>',
+    5: '<span style="display:inline-block;padding:2px 6px;border-radius:4px;background:#f0fdf4;color:#16a34a;font-weight:700;font-size:.75rem">5\u2605</span>'
+  };
+
+  function renderReviews(list) {
+    var tbody = document.getElementById('reviewBody');
+    var count = document.getElementById('resultCount');
+    if (!tbody || !count) return;
+    count.textContent = list.length + ' review' + (list.length !== 1 ? 's' : '') + ' shown';
+    tbody.innerHTML = list.map(function(rv) {
+      var badge = STAR_BADGES[rv.r] || STAR_BADGES[1];
+      var safe = rv.t.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return '<tr><td style="white-space:nowrap;vertical-align:top;padding-top:10px">' + badge + '</td><td style="padding:8px 7px"><div class="review-text">' + safe + '</div></td></tr>';
+    }).join('');
+  }
+
+  window.filterReviews = function() {
+    var rv = document.getElementById('filterRating').value;
+    var kw = document.getElementById('filterSearch').value.toLowerCase();
+    var list = REVIEWS;
+    if (rv) list = list.filter(function(r) { return r.r === +rv; });
+    if (kw) list = list.filter(function(r) { return r.t.toLowerCase().indexOf(kw) !== -1; });
+    renderReviews(list);
+  };
+
+  window.clearFilters = function() {
+    document.getElementById('filterRating').value = '';
+    document.getElementById('filterTheme').value = '';
+    document.getElementById('filterSearch').value = '';
+    renderReviews(REVIEWS);
+  };
+
+  renderReviews(REVIEWS);
+})();
+
+</script>
+</body>
+</html>
