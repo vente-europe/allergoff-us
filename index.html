@@ -401,17 +401,17 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 
 <!-- KPI ROW + STAR BAR -->
 <div class="kpis" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
-  <div class="kpi"><div class="kpi-v">0</div><div class="kpi-l">Total Reviews</div></div>
-  <div class="kpi"><div class="kpi-v" style="color:#0f2942">0 : 0</div><div class="kpi-l">Sentiment Ratio (pos:neg)</div></div>
-  <div class="kpi"><div class="kpi-v" style="color:#16a34a">0%</div><div class="kpi-l">Positive (4&#9733;+5&#9733;)</div></div>
-  <div class="kpi"><div class="kpi-v" style="color:#dc2626">0%</div><div class="kpi-l">Negative (1&#9733;-3&#9733;)</div></div>
+  <div class="kpi"><div class="kpi-v">38,837</div><div class="kpi-l">Total Reviews</div></div>
+  <div class="kpi"><div class="kpi-v" style="color:#0f2942">5.0 : 1</div><div class="kpi-l">Sentiment Ratio (pos:neg)</div></div>
+  <div class="kpi"><div class="kpi-v" style="color:#16a34a">83.3%</div><div class="kpi-l">Positive (4&#9733;+5&#9733;)</div></div>
+  <div class="kpi"><div class="kpi-v" style="color:#dc2626">16.7%</div><div class="kpi-l">Negative (1&#9733;-3&#9733;)</div></div>
 </div>
 
 <!-- Star Distribution Bar -->
 <div class="card" style="padding:12px 16px;margin-bottom:20px">
   <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
     <div style="font-size:.78rem;font-weight:600;color:#475569;white-space:nowrap">Star Distribution</div>
-    <div style="font-size:1.1rem;font-weight:800;color:#0f2942">0.00 <span style="font-size:.7rem;font-weight:400;color:#64748b">avg</span></div>
+    <div style="font-size:1.1rem;font-weight:800;color:#0f2942">4.39 <span style="font-size:.7rem;font-weight:400;color:#64748b">avg</span></div>
     <div id="starBar" style="flex:1;display:flex;height:22px;border-radius:4px;overflow:hidden;min-width:200px"></div>
     <div id="starLegend" style="display:flex;gap:10px;flex-wrap:wrap;font-size:.68rem;color:#475569"></div>
   </div>
@@ -484,30 +484,37 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
   <div class="cs-neg-zone">
     <div class="card" style="padding:0;overflow:hidden;border:1.5px solid #fecaca">
       <table class="us-table" id="csTableA">
-        <thead><tr style="background:#fef2f2"><th style="width:22%;border-left:3px solid #dc2626">Negative Feedback Topic</th><th>Reasons for Negative Feedback</th><th style="width:110px;text-align:right">Percentage</th></tr></thead>
+        <thead><tr style="background:#fef2f2"><th style="width:22%;border-left:3px solid #dc2626">Negative Feedback Topic</th><th>Key Signals</th><th style="width:110px;text-align:right">Impact</th></tr></thead>
         <tbody>
-          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Placeholder topic 1</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:100%;background:#fca5a5"></div></div><span>0%</span></td></tr>
-          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Placeholder detail</li></ul><div class="nf-quotes"><p>"Placeholder quote"</p></div></div></td></tr>
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Product ineffective</td><td class="us-reason">Zero results despite following all instructions — bugs/mites/allergens persist</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:100%;background:#fca5a5"></div></div><span>10/10</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Doesn't work at all — bugs/mites/allergens persist unchanged after multiple applications</li><li>Zero improvement in allergy symptoms even after weeks of use</li><li>Professional exterminators ultimately required to solve the actual problem</li></ul><div class="nf-quotes"><p>"Complete waste of money — killed nothing, got rid of nothing, did absolutely nothing despite careful application"</p></div></div></td></tr>
 
-          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Placeholder topic 2</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:50%;background:#fca5a5"></div></div><span>0%</span></td></tr>
-          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Placeholder detail</li></ul><div class="nf-quotes"><p>"Placeholder quote"</p></div></div></td></tr>
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> False marketing claims</td><td class="us-reason">"Kills on contact" but bugs survive; "odorless" but strong smell; "pet-safe" but adverse reactions</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:100%;background:#fca5a5"></div></div><span>10/10</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>"Kills on contact" but bugs survive direct spraying</li><li>"Odorless/unscented" but strong bleach or chemical smell reported</li><li>"Pet-safe" but pets had seizures, vomiting, or died</li><li>"6-month protection" but effects last hours to days at best</li></ul><div class="nf-quotes"><p>"Marketing is deliberately deceptive — every major claim on the label is contradicted by actual customer experience"</p></div></div></td></tr>
 
-          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Placeholder topic 3</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:30%;background:#fca5a5"></div></div><span>0%</span></td></tr>
-          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Placeholder detail</li></ul><div class="nf-quotes"><p>"Placeholder quote"</p></div></div></td></tr>
-        </tbody>
-      </table>
-    </div>
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Strong chemical smell</td><td class="us-reason">Overwhelming bleach/chlorine smell triggers respiratory problems instead of solving them</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:90%;background:#fca5a5"></div></div><span>9/10</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Overwhelming bleach or chlorine gas smell despite "unscented" labeling</li><li>Causes wheezing, asthma attacks, headaches, and sinus irritation</li><li>Families forced to evacuate homes due to unbearable fumes</li><li>Lingers for 24+ hours — rooms become unusable</li></ul><div class="nf-quotes"><p>"Had to evacuate our home — the chlorine gas smell was so bad, and it made my asthma worse instead of better"</p></div></div></td></tr>
 
-    <!-- Negative Review Insights -->
-    <div class="card" style="margin-top:22px;border:1.5px solid #fca5a5">
-      <div class="sec-header" style="margin-bottom:10px">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-        <div class="sec-title">Negative Review Insights — CPG / Amazon Product Strategy</div>
-      </div>
-      <table class="si-table">
-        <thead><tr><th style="width:130px">Analysis Type</th><th>Finding</th><th>Strategic Implication</th></tr></thead>
-        <tbody>
-          <tr><td><span class="si-badge" style="background:#fee2e2;color:#991b1b">Placeholder</span></td><td>Placeholder finding</td><td>Placeholder implication</td></tr>
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Defective packaging</td><td class="us-reason">Broken sprayers, cracked bottles, leaks during shipping — product unusable on arrival</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:90%;background:#fca5a5"></div></div><span>9/10</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Spray nozzles arrive missing, broken, or non-functional</li><li>Bottles crack during shipping, leaking product everywhere</li><li>Pump mechanisms clog, leak, or break after 15-20 squeezes</li><li>Bottles corrode themselves within one month</li></ul><div class="nf-quotes"><p>"Bottle arrived cracked and leaking — sprayer doesn't work, product is completely unusable before I could even try it"</p></div></div></td></tr>
+
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> White residue/staining</td><td class="us-reason">Heavy white mineral spots coat furniture, TV screens; sticky film on fabrics</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:80%;background:#fca5a5"></div></div><span>8/10</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Heavy white mineral/salt spots coat couches, TV screens, and reflective surfaces</li><li>Sticky, oily film left on fabrics requiring extensive cleanup</li><li>Permanent yellowish discoloration on white fabrics</li><li>White spots on furniture directly contradicts "no residue" marketing</li></ul><div class="nf-quotes"><p>"White salt spots all over my furniture and TV screen — home ended up dirtier from residue than before spraying"</p></div></div></td></tr>
+
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Dangerous to pets</td><td class="us-reason">Ball python killed within 8 hours; cats/dogs had seizures — despite "pet-safe" labels</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:80%;background:#fca5a5"></div></div><span>8/10</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Ball python killed within 8 hours of product use</li><li>Cats and dogs experienced seizures, vomiting, and allergic reactions</li><li>Clove ingredient toxic to cats despite "pet-safe" labeling</li><li>Multiple vet visits required after product exposure</li></ul><div class="nf-quotes"><p>"KILLED MY HEALTHY BALL PYTHON WITHIN 8 HOURS — pet-safe marketing is a dangerous lie"</p></div></div></td></tr>
+
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> No lasting protection</td><td class="us-reason">Effects last hours to 2-3 days; requires constant respraying at $300+/year</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:80%;background:#fca5a5"></div></div><span>8/10</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Effects last only hours to 2-3 days, requiring constant respraying</li><li>Bottles deplete rapidly — 32oz gone in a few applications</li><li>Annual cost becomes prohibitive ($300+ per year)</li><li>"6-month protection" claims vs reality of 2-day effectiveness</li></ul><div class="nf-quotes"><p>"Must reapply every day or symptoms return immediately — creates an endless expensive cycle with no real solution"</p></div></div></td></tr>
+
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Overpriced</td><td class="us-reason">Premium prices ($33-$57) for non-functional products; DIY alternatives work better</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:70%;background:#fca5a5"></div></div><span>7/10</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>$57 (Green Bean Buddy), $55 (Allersearch), $39 (Ecology Works) — premium prices for non-functional products</li><li>Cheaper DIY alternatives (baking soda, vinegar, essential oils) work as well or better</li><li>Professional exterminators provide actual solutions at comparable total cost</li></ul><div class="nf-quotes"><p>"Wasted $100+ buying multiple bottles of something that does nothing — should have hired a professional from the start"</p></div></div></td></tr>
+
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Triggers health problems</td><td class="us-reason">Allergic reactions, emergency asthma attacks from the spray itself</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:70%;background:#fca5a5"></div></div><span>7/10</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>Severe allergic reactions, sneezing fits, and skin irritation from the product</li><li>Emergency asthma attacks 5-7 times per day after spraying</li><li>Product corrosion damages HVAC metal ductwork</li></ul><div class="nf-quotes"><p>"24 hours after spraying she was having emergency asthma attacks 5-7 times a day — the cure was worse than the disease"</p></div></div></td></tr>
+
+          <tr class="nf-row" onclick="toggleNF(this)"><td class="us-label"><span class="nf-arrow">&#9654;</span> Tiny quantity</td><td class="us-reason">5oz-32oz bottles insufficient for whole-room treatment; need 3-5+ bottles per bedroom</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:60%;background:#fca5a5"></div></div><span>6/10</span></td></tr>
+          <tr class="nf-detail"><td colspan="3"><div class="nf-body"><ul><li>5oz can (RID) empties before covering a single mattress</li><li>Need 3-5+ bottles to treat a single bedroom properly</li><li>Product depletes within 2-3 uses on normal-sized furniture</li></ul><div class="nf-quotes"><p>"Tiny can — not enough product to do anything meaningful, forces multiple purchases that multiply the waste"</p></div></div></td></tr>
         </tbody>
       </table>
     </div>
@@ -517,30 +524,37 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
   <div class="cs-pos-zone">
     <div class="card" style="padding:0;overflow:hidden;border:1.5px solid #bbf7d0">
       <table class="us-table" id="csTablePos">
-        <thead><tr style="background:#f0fdf4"><th style="width:22%;border-left:3px solid #16a34a">Positive Feedback Topic</th><th>Reasons for Positive Feedback</th><th style="width:110px;text-align:right">Percentage</th></tr></thead>
+        <thead><tr style="background:#f0fdf4"><th style="width:22%;border-left:3px solid #16a34a">Positive Feedback Topic</th><th>Key Signals</th><th style="width:110px;text-align:right">Impact</th></tr></thead>
         <tbody>
-          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Placeholder topic 1</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:100%;background:#86efac"></div></div><span>0%</span></td></tr>
-          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Placeholder detail</li></ul><div class="pf-quotes"><p>"Placeholder quote"</p></div></div></td></tr>
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Fast, visible results</td><td class="us-reason">Kills pests on contact; allergy relief within hours; visible dead bugs confirm it works</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:100%;background:#86efac"></div></div><span>10/10</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Bugs die instantly when sprayed directly</li><li>Itching stops within hours of application on bedding/pillows</li><li>Allergy symptoms reduce dramatically overnight</li><li>Results comparable to professional exterminator treatments</li></ul><div class="pf-quotes"><p>"Works amazingly — sprayed my pillows and the itching stopped immediately, I finally slept through the night"</p></div></div></td></tr>
 
-          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Placeholder topic 2</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:50%;background:#86efac"></div></div><span>0%</span></td></tr>
-          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Placeholder detail</li></ul><div class="pf-quotes"><p>"Placeholder quote"</p></div></div></td></tr>
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Safe, non-toxic formula</td><td class="us-reason">Plant-based ingredients; safe around children, pets, and sensitive family members</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:100%;background:#86efac"></div></div><span>10/10</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Plant-based/mineral-based ingredients give peace of mind</li><li>Cats, dogs, and other pets show zero adverse reactions</li><li>Safe for use on baby bedding and children's rooms</li><li>Much safer than professional chemical treatments</li></ul><div class="pf-quotes"><p>"Non-toxic and safe for kids and pets — I didn't have to worry about harmful chemicals around my family"</p></div></div></td></tr>
 
-          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Placeholder topic 3</td><td class="us-reason">Placeholder reason</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:30%;background:#86efac"></div></div><span>0%</span></td></tr>
-          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Placeholder detail</li></ul><div class="pf-quotes"><p>"Placeholder quote"</p></div></div></td></tr>
-        </tbody>
-      </table>
-    </div>
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> No odor / pleasant scent</td><td class="us-reason">Fragrance-free or pleasant natural scent; no respiratory irritation</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:90%;background:#86efac"></div></div><span>9/10</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Fragrance-free formula that truly has no detectable smell</li><li>Pleasant natural/citrus scent that doesn't trigger migraines or asthma</li><li>Dries odorless so treated surfaces can be used immediately</li></ul><div class="pf-quotes"><p>"Nice scent that didn't trigger an asthmatic response or migraine — unlike every other spray I've tried"</p></div></div></td></tr>
 
-    <!-- Positive Review Insights -->
-    <div class="card" style="margin-top:22px">
-      <div class="sec-header" style="margin-bottom:10px">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-        <div class="sec-title">Positive Review Insights — CPG / Amazon Product Strategy</div>
-      </div>
-      <table class="si-table">
-        <thead><tr><th style="width:130px">Analysis Type</th><th>Finding</th><th>Strategic Implication</th></tr></thead>
-        <tbody>
-          <tr><td><span class="si-badge" style="background:#dbeafe;color:#1e40af">Placeholder</span></td><td>Placeholder finding</td><td>Placeholder implication</td></tr>
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Life-changing for pet owners</td><td class="us-reason">Allergic guests can visit; pets can stay; reduces ER trips for allergy-triggered asthma</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:90%;background:#86efac"></div></div><span>9/10</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Allergic guests visit for days without any symptoms</li><li>Allowed keeping beloved cats/dogs despite family member allergies</li><li>Professional-level dander neutralization at home</li><li>Reduces ER trips for allergy-triggered asthma episodes</li></ul><div class="pf-quotes"><p>"Friends stayed for 8 days with no runny noses, sneezing, or reactions — our cat stayed and allergies are gone"</p></div></div></td></tr>
+
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> No staining or damage</td><td class="us-reason">Dries clear on all fabrics; no residue on mattresses, carpets, curtains</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:80%;background:#86efac"></div></div><span>8/10</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Spray dries clear with zero discoloration on white fabrics</li><li>Safe on cotton, polyester, satin, viscose, and microfiber</li><li>Works on mattresses, pillows, curtains, and stuffed animals without marks</li></ul><div class="pf-quotes"><p>"Sprayed it everywhere — no staining, no discoloration, even on my white mattress cover and viscose carpet"</p></div></div></td></tr>
+
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Easy application</td><td class="us-reason">Shake-and-spray; no professional help needed; DIY saves hundreds</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:80%;background:#86efac"></div></div><span>8/10</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Straightforward shake-and-spray process anyone can do</li><li>No complicated setup, mixing, or safety equipment required</li><li>Can treat entire home in one session</li></ul><div class="pf-quotes"><p>"Did this myself — safe and easy, no professional needed, saved hundreds of dollars"</p></div></div></td></tr>
+
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Excellent value</td><td class="us-reason">Cheaper than exterminators; one bottle covers large areas; repeat customers confirm</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:70%;background:#86efac"></div></div><span>7/10</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Much cheaper than hiring professional exterminators</li><li>One bottle covers large areas (queen mattress + furniture)</li><li>Concentrated formulas provide good cost-per-treatment ratio</li></ul><div class="pf-quotes"><p>"So much less expensive than hiring an exterminator — great results at a fraction of the cost"</p></div></div></td></tr>
+
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Multi-pest versatility</td><td class="us-reason">Works on bed bugs, dust mites, fleas, dander, pollen — one product for everything</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:70%;background:#86efac"></div></div><span>7/10</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Kills bed bugs, dust mites, fleas, ticks, spider mites</li><li>Neutralizes pet dander, pollen, mold spores, and dust mite waste</li><li>Works on all soft surfaces: bedding, furniture, carpets, curtains</li></ul><div class="pf-quotes"><p>"One product handles dust mites, pet dander, fleas, and spider mites — replaced three different sprays"</p></div></div></td></tr>
+
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Long-lasting protection</td><td class="us-reason">6-month protection; monthly routine keeps allergens under control; 20+ year loyal users</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:70%;background:#86efac"></div></div><span>7/10</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>6-month protection between applications (DustmiteX)</li><li>Monthly spray routine keeps pet dander under control year-round</li><li>20+ years of loyal repeat use confirms sustained effectiveness</li></ul><div class="pf-quotes"><p>"I've used this for 20+ years — spray once a month and my allergies stay completely in check"</p></div></div></td></tr>
+
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Improves sleep &amp; breathing</td><td class="us-reason">No more congestion, wheezing, or phlegm on waking; reduces allergy medication needs</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:90%;background:#86efac"></div></div><span>9/10</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>No more waking up congested, wheezing, or with phlegm</li><li>First full night of sleep without allergy interruptions</li><li>Breathing noticeably cleaner and easier within hours</li><li>Reduces need for allergy medication and ER visits</li></ul><div class="pf-quotes"><p>"Sleep is perfect now — no stuffy nose, no wheezing, went from a 10 in misery to a 1"</p></div></div></td></tr>
         </tbody>
       </table>
     </div>
@@ -900,14 +914,14 @@ function togglePF(row) {
   if (!isOpen) { row.classList.add('open'); detail.classList.add('open'); }
 }
 
-// Star distribution bar — placeholder
+// Star distribution bar — real data from review_ratings.json
 (function buildStarBar() {
   const dist = [
-    { star: 1, count: 0, color: '#dc2626' },
-    { star: 2, count: 0, color: '#ea580c' },
-    { star: 3, count: 0, color: '#f59e0b' },
-    { star: 4, count: 0, color: '#22c55e' },
-    { star: 5, count: 0, color: '#16a34a' }
+    { star: 1, count: 1872, color: '#dc2626' },
+    { star: 2, count: 1178, color: '#ea580c' },
+    { star: 3, count: 3444, color: '#f59e0b' },
+    { star: 4, count: 5502, color: '#22c55e' },
+    { star: 5, count: 26841, color: '#16a34a' }
   ];
   const total = dist.reduce((s, d) => s + d.count, 0) || 1;
   const bar = document.getElementById('starBar');
