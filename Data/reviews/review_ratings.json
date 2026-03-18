@@ -1,0 +1,101 @@
+[
+  {
+    "avg_rating": 4.5,
+    "total_ratings": 828,
+    "5_star": "76%",
+    "4_star": "13%",
+    "3_star": "6%",
+    "2_star": "1%",
+    "1_star": "4%"
+  },
+  {
+    "avg_rating": 4.4,
+    "total_ratings": 960,
+    "5_star": "71%",
+    "4_star": "12%",
+    "3_star": "9%",
+    "2_star": "2%",
+    "1_star": "6%"
+  },
+  {
+    "avg_rating": 4.6,
+    "total_ratings": 1807,
+    "5_star": "79%",
+    "4_star": "10%",
+    "3_star": "7%",
+    "2_star": "2%",
+    "1_star": "2%"
+  },
+  {
+    "avg_rating": 4.5,
+    "total_ratings": 1966,
+    "5_star": "74%",
+    "4_star": "12%",
+    "3_star": "9%",
+    "2_star": "2%",
+    "1_star": "3%"
+  },
+  {
+    "avg_rating": 4.3,
+    "total_ratings": 2428,
+    "5_star": "63%",
+    "4_star": "18%",
+    "3_star": "10%",
+    "2_star": "4%",
+    "1_star": "5%"
+  },
+  {
+    "avg_rating": 4.6,
+    "total_ratings": 2639,
+    "5_star": "77%",
+    "4_star": "14%",
+    "3_star": "6%",
+    "2_star": "1%",
+    "1_star": "2%"
+  },
+  {
+    "avg_rating": 4.2,
+    "total_ratings": 2776,
+    "5_star": "64%",
+    "4_star": "13%",
+    "3_star": "10%",
+    "2_star": "4%",
+    "1_star": "9%"
+  },
+  {
+    "avg_rating": 4.4,
+    "total_ratings": 3707,
+    "5_star": "68%",
+    "4_star": "14%",
+    "3_star": "10%",
+    "2_star": "4%",
+    "1_star": "4%"
+  },
+  {
+    "avg_rating": 4.2,
+    "total_ratings": 4051,
+    "5_star": "64%",
+    "4_star": "15%",
+    "3_star": "9%",
+    "2_star": "4%",
+    "1_star": "8%"
+  },
+  {
+    "avg_rating": 4.4,
+    "total_ratings": 8258,
+    "5_star": "69%",
+    "4_star": "14%",
+    "3_star": "9%",
+    "2_star": "3%",
+    "1_star": "5%"
+  },
+  {
+    "avg_rating": 4.4,
+    "total_ratings": 9417,
+    "5_star": "69%",
+    "4_star": "15%",
+    "3_star": "9%",
+    "2_star": "3%",
+    "1_star": "4%"
+  }
+]

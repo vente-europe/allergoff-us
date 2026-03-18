@@ -1,0 +1,400 @@
+{
+  "meta": {
+    "description": "Top 10 consolidated positive and negative review themes across dust mite/allergen/pest spray products",
+    "products_analyzed": [
+      "Hot Shot Bed Bug Killer Spray",
+      "Premo Guard Natural Mite Spray",
+      "LivePure Anti-Allergen Fabric Spray",
+      "Allergy Asthma Clean Allergen Spray Concentrate",
+      "RID Home Lice Bed Bug & Dust Mite Spray",
+      "The Ecology Works DustmiteX Dust Mite Spray",
+      "Mite-B-Gone Dust Mite Killer Spray",
+      "Allersearch ADMS Anti-Allergen Spray (32oz & 128oz)",
+      "EcoVenger Mite Killer",
+      "Green Bean Buddy Bed Bug Killer",
+      "The Ecology Works Solution Pet Dander & Dust Mite Spray"
+    ],
+    "date_created": "2026-03-18"
+  },
+  "top_10_negative": [
+    {
+      "rank": 1,
+      "theme": "Product completely ineffective — zero results despite following all instructions",
+      "combined_signals": [
+        "Doesn't work at all — bugs/mites/allergens persist unchanged after multiple applications",
+        "Zero improvement in allergy symptoms (sneezing, itching, congestion) even after weeks of use",
+        "Customers still getting bitten, still waking up with phlegm, still scratching",
+        "Multiple applications yield no improvement — endless reapplication with no payoff",
+        "Professional exterminators ultimately required to solve the actual problem"
+      ],
+      "products_affected": "ALL products — universal #1 complaint across every brand",
+      "impact_score": "10/10",
+      "representative_sentiment": "Complete waste of money — killed nothing, got rid of nothing, did absolutely nothing despite careful application"
+    },
+    {
+      "rank": 2,
+      "theme": "False and misleading marketing claims that don't match real-world results",
+      "combined_signals": [
+        "'Kills on contact' but bugs survive direct spraying",
+        "'99% effective' / '95% efficacy' contradicted by zero customer results",
+        "'Odorless/unscented' but strong bleach or chemical smell reported",
+        "'No residue' but white mineral dust or sticky film left everywhere",
+        "'Pet-safe' but pets had seizures, vomiting, or died (ball python killed within 8 hours)",
+        "'6-month protection' but effects last hours to days at best",
+        "'Lab-tested/3rd-party verified' but no real-world performance to match"
+      ],
+      "products_affected": "ALL products — every brand has at least 2-3 false claim complaints",
+      "impact_score": "10/10",
+      "representative_sentiment": "Marketing is deliberately deceptive — every major claim on the label is contradicted by actual customer experience"
+    },
+    {
+      "rank": 3,
+      "theme": "Strong chemical/bleach smell that triggers respiratory problems instead of solving them",
+      "combined_signals": [
+        "Overwhelming bleach or chlorine gas smell despite 'unscented' labeling",
+        "Smell intensifies as product dries — opposite of what's promised",
+        "Causes wheezing, asthma attacks, headaches, and sinus irritation",
+        "Families forced to evacuate homes due to unbearable fumes",
+        "Lingers for 24+ hours — rooms become unusable",
+        "Product designed for allergy sufferers actively worsens their symptoms"
+      ],
+      "products_affected": [
+        "LivePure Anti-Allergen Fabric Spray",
+        "Allersearch ADMS (32oz & 128oz)",
+        "The Ecology Works Solution Pet Dander Spray",
+        "RID Home Lice Spray",
+        "Hot Shot Bed Bug Killer"
+      ],
+      "impact_score": "9/10",
+      "representative_sentiment": "Had to evacuate our home — the chlorine gas smell was so bad, and it made my asthma worse instead of better"
+    },
+    {
+      "rank": 4,
+      "theme": "Defective bottles, broken sprayers, and severe packaging failures on arrival",
+      "combined_signals": [
+        "Spray nozzles arrive missing, broken, or non-functional — product unusable out of box",
+        "Bottles crack during shipping, leaking product everywhere",
+        "Pump mechanisms clog, leak, or break after 15-20 squeezes",
+        "Liquid seals compromised — can't return without further leakage",
+        "Bottles corrode themselves within one month",
+        "Pin-sized holes cause slow leaks that destroy packaging"
+      ],
+      "products_affected": [
+        "LivePure Anti-Allergen Fabric Spray",
+        "The Ecology Works DustmiteX",
+        "The Ecology Works Solution Pet Dander Spray",
+        "Green Bean Buddy Bed Bug Killer",
+        "Premo Guard Natural Mite Spray",
+        "Allergy Asthma Clean"
+      ],
+      "impact_score": "9/10",
+      "representative_sentiment": "Bottle arrived cracked and leaking — sprayer doesn't work, product is completely unusable before I could even try it"
+    },
+    {
+      "rank": 5,
+      "theme": "White residue/staining damages furniture, fabrics, and electronics",
+      "combined_signals": [
+        "Heavy white mineral/salt spots coat couches, TV screens, and reflective surfaces",
+        "Sticky, oily film left on fabrics requiring extensive cleanup",
+        "Permanent yellowish discoloration on white fabrics and throw pillows",
+        "Residue on hardwood floors makes surfaces sticky",
+        "Spots don't wipe off easily — some leave lasting marks",
+        "White spots on furniture directly contradicts 'no residue' marketing"
+      ],
+      "products_affected": [
+        "Allergy Asthma Clean",
+        "The Ecology Works DustmiteX",
+        "Allersearch ADMS (32oz & 128oz)",
+        "Mite-B-Gone Dust Mite Killer",
+        "Premo Guard Natural Mite Spray"
+      ],
+      "impact_score": "8/10",
+      "representative_sentiment": "White salt spots all over my furniture and TV screen — homes ended up dirtier from residue than before spraying"
+    },
+    {
+      "rank": 6,
+      "theme": "Dangerous to pets — adverse reactions, vet visits, and animal deaths reported",
+      "combined_signals": [
+        "Ball python killed within 8 hours of product use in enclosure",
+        "Cats and dogs experienced seizures, vomiting, and allergic reactions",
+        "Clove ingredient toxic to cats despite 'pet-safe' labeling",
+        "Multiple vet visits required after product exposure",
+        "Contradicts prominent 'safe for all pets' marketing across brands"
+      ],
+      "products_affected": [
+        "Premo Guard Natural Mite Spray",
+        "Mite-B-Gone Dust Mite Killer",
+        "LivePure Anti-Allergen Fabric Spray",
+        "Hot Shot Bed Bug Killer"
+      ],
+      "impact_score": "8/10",
+      "representative_sentiment": "KILLED MY HEALTHY BALL PYTHON WITHIN 8 HOURS — pet-safe marketing is a dangerous lie"
+    },
+    {
+      "rank": 7,
+      "theme": "Requires endless reapplication with no lasting protection — expensive long-term trap",
+      "combined_signals": [
+        "Effects last only hours to 2-3 days, requiring constant respraying",
+        "No residual barrier after drying — only kills on direct contact",
+        "Must spray every 1-3 days indefinitely for any minimal benefit",
+        "Bottles deplete rapidly — 32oz gone in a few applications",
+        "Annual cost becomes prohibitive ($300+ per year) for products that barely work",
+        "'6-month protection' claims vs reality of 2-day effectiveness"
+      ],
+      "products_affected": "ALL products — universal complaint about short duration and reapplication burden",
+      "impact_score": "8/10",
+      "representative_sentiment": "Must reapply every day or symptoms return immediately — creates an endless expensive cycle with no real solution"
+    },
+    {
+      "rank": 8,
+      "theme": "Massively overpriced relative to zero or minimal results delivered",
+      "combined_signals": [
+        "$57 (Green Bean Buddy), $55 (Allersearch 128oz), $39 (Ecology Works Pet), $33 (Premo Guard) — premium prices for non-functional products",
+        "Cheaper DIY alternatives (baking soda, vinegar, essential oils) work as well or better",
+        "Professional exterminators provide actual solutions at comparable total cost",
+        "Hidden costs: separate sprayer purchase, replacement bottles, cleanup supplies",
+        "Multiple bottles needed per treatment multiplies the waste"
+      ],
+      "products_affected": "ALL products — price frustration scales with ineffectiveness",
+      "impact_score": "7/10",
+      "representative_sentiment": "Wasted $100+ buying multiple bottles of something that does nothing — should have hired a professional from the start"
+    },
+    {
+      "rank": 9,
+      "theme": "Product triggers health problems it's supposed to solve — allergic reactions to the spray itself",
+      "combined_signals": [
+        "Severe allergic reactions, sneezing fits, and skin irritation from the product",
+        "Respiratory distress requiring medical attention",
+        "Emergency asthma attacks 5-7 times per day after spraying",
+        "Sinus infections worsened by chemical exposure",
+        "Product corrosion damages HVAC metal ductwork in homes"
+      ],
+      "products_affected": [
+        "Allersearch ADMS (32oz & 128oz)",
+        "Hot Shot Bed Bug Killer",
+        "RID Home Lice Spray",
+        "The Ecology Works Solution Pet Dander Spray"
+      ],
+      "impact_score": "7/10",
+      "representative_sentiment": "24 hours after spraying she was having emergency asthma attacks 5-7 times a day — the cure was worse than the disease"
+    },
+    {
+      "rank": 10,
+      "theme": "Tiny product quantity inadequate for any real treatment",
+      "combined_signals": [
+        "5oz can (RID) empties before covering a single mattress",
+        "16oz/32oz bottles insufficient for whole-room treatment",
+        "Need 3-5+ bottles to treat a single bedroom properly",
+        "Product depletes within 2-3 uses on normal-sized furniture",
+        "Advertising implies adequate coverage that reality doesn't deliver"
+      ],
+      "products_affected": [
+        "RID Home Lice Spray (5oz)",
+        "EcoVenger Mite Killer (16oz)",
+        "Premo Guard Natural Mite Spray (32oz)",
+        "Green Bean Buddy (32oz)"
+      ],
+      "impact_score": "6/10",
+      "representative_sentiment": "Tiny can — not enough product to do anything meaningful, forces multiple purchases that multiply the waste"
+    }
+  ],
+  "top_10_positive": [
+    {
+      "rank": 1,
+      "theme": "Kills pests on contact with fast, visible results — noticeable relief within hours",
+      "combined_signals": [
+        "Bugs die instantly when sprayed directly",
+        "Itching stops within hours of application on bedding/pillows",
+        "Allergy symptoms (sneezing, congestion, watery eyes) reduce dramatically overnight",
+        "Visible dead bugs confirm effectiveness",
+        "Waking up refreshed without usual allergy symptoms for the first time",
+        "Results comparable to professional exterminator treatments"
+      ],
+      "products_praised": [
+        "Hot Shot Bed Bug Killer",
+        "Mite-B-Gone Dust Mite Killer",
+        "Green Bean Buddy Bed Bug Killer",
+        "EcoVenger Mite Killer",
+        "Allersearch ADMS (32oz & 128oz)",
+        "The Ecology Works DustmiteX"
+      ],
+      "impact_score": "10/10",
+      "representative_sentiment": "Works amazingly — sprayed my pillows and the itching stopped immediately, I finally slept through the night"
+    },
+    {
+      "rank": 2,
+      "theme": "Safe, non-toxic formula — confident use around children, pets, and sensitive family members",
+      "combined_signals": [
+        "Plant-based/mineral-based ingredients give peace of mind",
+        "No harsh synthetic pesticides or dangerous chemicals",
+        "Cats, dogs, and other pets show zero adverse reactions",
+        "Safe for use on baby bedding and children's rooms",
+        "Can spray on kitchen surfaces and food prep areas",
+        "Much safer than professional chemical treatments",
+        "Chemically-sensitive individuals can use without reactions"
+      ],
+      "products_praised": [
+        "Mite-B-Gone Dust Mite Killer",
+        "EcoVenger Mite Killer",
+        "Green Bean Buddy Bed Bug Killer",
+        "Allergy Asthma Clean",
+        "The Ecology Works Solution Pet Dander Spray",
+        "Premo Guard Natural Mite Spray"
+      ],
+      "impact_score": "10/10",
+      "representative_sentiment": "Non-toxic and safe for kids and pets — I didn't have to worry about harmful chemicals around my family"
+    },
+    {
+      "rank": 3,
+      "theme": "No odor or pleasant scent — comfortable for indoor use without respiratory irritation",
+      "combined_signals": [
+        "Fragrance-free formula that truly has no detectable smell",
+        "Pleasant natural/citrus scent that doesn't trigger migraines or asthma",
+        "No harsh chemical fumes — safe for bedrooms and enclosed spaces",
+        "Dries odorless so treated surfaces can be used immediately",
+        "Far superior to bleach-smelling competitors"
+      ],
+      "products_praised": [
+        "EcoVenger Mite Killer (100% positive smell feedback)",
+        "The Ecology Works DustmiteX",
+        "Mite-B-Gone Dust Mite Killer",
+        "Allergy Asthma Clean",
+        "Allersearch ADMS (many users report minimal scent)"
+      ],
+      "impact_score": "9/10",
+      "representative_sentiment": "Nice scent that didn't trigger an asthmatic response or migraine — unlike every other spray I've tried"
+    },
+    {
+      "rank": 4,
+      "theme": "Life-changing for pet owners — allergic family members can finally visit and pets can stay",
+      "combined_signals": [
+        "Allergic guests visit for days without any symptoms",
+        "Allowed keeping beloved cats/dogs despite family member allergies",
+        "Partners, children, and visiting relatives breathe easy around pets",
+        "Professional-level dander neutralization at home",
+        "Reduces ER trips for allergy-triggered asthma episodes"
+      ],
+      "products_praised": [
+        "Allersearch ADMS (32oz & 128oz)",
+        "The Ecology Works Solution Pet Dander Spray",
+        "Allergy Asthma Clean",
+        "LivePure Anti-Allergen Fabric Spray"
+      ],
+      "impact_score": "9/10",
+      "representative_sentiment": "Friends stayed for 8 days with no runny noses, sneezing, or reactions — our cat stayed and allergies are gone"
+    },
+    {
+      "rank": 5,
+      "theme": "No staining or damage to fabrics — safe on mattresses, couches, carpets, and delicate materials",
+      "combined_signals": [
+        "Spray dries clear with zero discoloration on white fabrics",
+        "Safe on cotton, polyester, satin, viscose, and microfiber",
+        "No residue left behind on treated surfaces",
+        "Works on mattresses, pillows, curtains, and stuffed animals without marks",
+        "White carpet tested and confirmed stain-free"
+      ],
+      "products_praised": [
+        "Allersearch ADMS (32oz & 128oz)",
+        "RID Home Lice Spray",
+        "Mite-B-Gone Dust Mite Killer",
+        "Hot Shot Bed Bug Killer",
+        "EcoVenger Mite Killer"
+      ],
+      "impact_score": "8/10",
+      "representative_sentiment": "Sprayed it everywhere — no staining, no discoloration, even on my white mattress cover and viscose carpet"
+    },
+    {
+      "rank": 6,
+      "theme": "Simple, easy application — no professional help needed, just spray and go",
+      "combined_signals": [
+        "Straightforward shake-and-spray process anyone can do",
+        "No complicated setup, mixing, or safety equipment required",
+        "Just add water (for concentrates) — simple preparation",
+        "Fine mist sprayer distributes product evenly",
+        "DIY treatment saves hundreds vs. professional exterminator costs",
+        "Can treat entire home in one session"
+      ],
+      "products_praised": "ALL products receive praise for ease of use — universal positive",
+      "impact_score": "8/10",
+      "representative_sentiment": "Did this myself — safe and easy, no professional needed, saved hundreds of dollars"
+    },
+    {
+      "rank": 7,
+      "theme": "Excellent value — professional-grade results at affordable consumer pricing",
+      "combined_signals": [
+        "Much cheaper than hiring professional exterminators",
+        "One bottle covers large areas (queen mattress + furniture)",
+        "Results justify the price point for customers who see effectiveness",
+        "Concentrated formulas provide good cost-per-treatment ratio",
+        "Repeat customers confirm ongoing value over months/years"
+      ],
+      "products_praised": [
+        "Hot Shot Bed Bug Killer",
+        "RID Home Lice Spray",
+        "EcoVenger Mite Killer",
+        "The Ecology Works DustmiteX",
+        "Allergy Asthma Clean"
+      ],
+      "impact_score": "7/10",
+      "representative_sentiment": "So much less expensive than hiring an exterminator — great results at a fraction of the cost"
+    },
+    {
+      "rank": 8,
+      "theme": "Works on multiple pest types and allergens — versatile one-product solution",
+      "combined_signals": [
+        "Kills bed bugs, dust mites, fleas, ticks, spider mites, and bird mites",
+        "Neutralizes pet dander, pollen, mold spores, and dust mite waste",
+        "Works on all soft surfaces: bedding, furniture, carpets, curtains, car interiors",
+        "Effective for garden/plant pests as well as indoor allergens",
+        "Eliminates need for multiple specialized products"
+      ],
+      "products_praised": [
+        "EcoVenger Mite Killer",
+        "Mite-B-Gone Dust Mite Killer",
+        "Hot Shot Bed Bug Killer",
+        "Green Bean Buddy Bed Bug Killer",
+        "Allersearch ADMS"
+      ],
+      "impact_score": "7/10",
+      "representative_sentiment": "One product handles dust mites, pet dander, fleas, and spider mites — replaced three different sprays"
+    },
+    {
+      "rank": 9,
+      "theme": "Long-lasting protection — monthly or less frequent reapplication keeps homes allergen-free",
+      "combined_signals": [
+        "6-month protection between applications (DustmiteX)",
+        "Monthly spray routine keeps pet dander under control year-round",
+        "One bottle lasts 4-5 months with regular use",
+        "20+ years of loyal repeat use confirms sustained effectiveness",
+        "Residual barrier continues working after drying"
+      ],
+      "products_praised": [
+        "The Ecology Works DustmiteX (6-month claims)",
+        "Allersearch ADMS 128oz (monthly routine)",
+        "Green Bean Buddy (residual barrier technology)"
+      ],
+      "impact_score": "7/10",
+      "representative_sentiment": "I've used this for 20+ years — spray once a month and my allergies stay completely in check"
+    },
+    {
+      "rank": 10,
+      "theme": "Dramatically improves sleep quality and daily breathing for allergy sufferers",
+      "combined_signals": [
+        "No more waking up congested, wheezing, or with phlegm",
+        "First full night of sleep without allergy interruptions",
+        "Breathing noticeably cleaner and easier within hours",
+        "Eliminates morning stuffiness and itchy eyes",
+        "Reduces need for allergy medication and ER visits",
+        "Air quality improvement noticeable immediately upon entering treated home"
+      ],
+      "products_praised": [
+        "Allersearch ADMS (32oz & 128oz)",
+        "The Ecology Works DustmiteX",
+        "Allergy Asthma Clean",
+        "The Ecology Works Solution Pet Dander Spray"
+      ],
+      "impact_score": "9/10",
+      "representative_sentiment": "Sleep is perfect now — no stuffy nose, no wheezing, went from a 10 in misery to a 1"
+    }
+  ]
+}
