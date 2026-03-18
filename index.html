@@ -219,18 +219,65 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
   12M figures projected from 30-day X-Ray snapshot (exported ~Mar 2026) &times; 12. Only Allergen Neutralizer and Dust Mite Specialist segments included.
 </div>
 
-<!-- Segment pies -->
+<!-- Market Share pies -->
 <div class="g2" style="align-items:start">
   <div class="card">
-    <h3>Revenue by Segment (12M)</h3>
-    <div style="font-size:1.1rem;font-weight:700;color:#1e293b;margin-top:2px">$9,687,303</div>
-    <div class="cw" style="height:300px"><canvas id="focusRevPie"></canvas></div>
+    <h3>Market Share — Units (12M)</h3>
+    <div style="font-size:.82rem;color:#64748b;margin-bottom:4px">Total: 494,724 units</div>
+    <div class="cw" style="height:320px"><canvas id="focusUnitsPie"></canvas></div>
+    <div class="note" style="margin-top:10px">Unit share reflects how many of all segment units each segment accounts for. A dominant segment may indicate strong consumer preference or a mature category.</div>
   </div>
   <div class="card">
-    <h3>Units by Segment (12M)</h3>
-    <div style="font-size:1.1rem;font-weight:700;color:#1e293b;margin-top:2px">494,724</div>
-    <div class="cw" style="height:300px"><canvas id="focusUnitsPie"></canvas></div>
+    <h3>Market Share — Revenue (12M)</h3>
+    <div style="font-size:.82rem;color:#64748b;margin-bottom:4px">Total: $9.7M ($9,687,303)</div>
+    <div class="cw" style="height:320px"><canvas id="focusRevPie"></canvas></div>
+    <div class="note" style="margin-top:10px">Revenue share may differ from unit share when segments operate at different price levels. A segment with a higher revenue share relative to its unit share might suggest premium positioning.</div>
   </div>
+</div>
+
+<!-- Segment Summary table -->
+<div class="card">
+  <h3>Segment Summary (12M)</h3>
+  <div class="tbl-wrap"><table class="num-right" id="segSummaryTable">
+    <thead><tr>
+      <th style="text-align:left">Segment</th>
+      <th>SKUs</th>
+      <th>Units (12M)</th>
+      <th>Revenue (12M)</th>
+      <th>Avg Price</th>
+      <th>Unit Share</th>
+      <th>Rev Share</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td style="text-align:left"><span class="badge" style="background:#dbeafe;color:#1d4ed8">Allergen Neutralizer</span></td>
+        <td>21</td>
+        <td data-val="354060">354,060</td>
+        <td data-val="6106999">$6.1M</td>
+        <td>$31.10</td>
+        <td data-val="71.6">71.6%</td>
+        <td data-val="63.0">63.0%</td>
+      </tr>
+      <tr>
+        <td style="text-align:left"><span class="badge" style="background:#ede9fe;color:#6d28d9">Dust Mite Specialist</span></td>
+        <td>17</td>
+        <td data-val="140664">140,664</td>
+        <td data-val="3580305">$3.6M</td>
+        <td>$49.72</td>
+        <td data-val="28.4">28.4%</td>
+        <td data-val="37.0">37.0%</td>
+      </tr>
+      <tr style="font-weight:700;border-top:2px solid #e2e8f0">
+        <td style="text-align:left"><strong>Total</strong></td>
+        <td>38</td>
+        <td>494,724</td>
+        <td>$9.7M</td>
+        <td>—</td>
+        <td style="color:#2563eb">100%</td>
+        <td style="color:#2563eb">100%</td>
+      </tr>
+    </tbody>
+  </table></div>
 </div>
 
 <!-- Combined Brand Share — Both Segments -->
@@ -654,13 +701,53 @@ const SEG_COLORS = ['#2563eb','#7c3aed'];
 const SEG_REV = [6106999,3580305];
 const SEG_UNITS = [354060,140664];
 
-// Revenue by Segment
-makePie('focusRevPie', SEG_LABELS, SEG_REV, SEG_COLORS,
-  v => '$' + (v/1e6).toFixed(1) + 'M', v => '$' + v.toLocaleString());
+// Market Share — Units (with % + value inside slice)
+(function() {
+  const el = document.getElementById('focusUnitsPie');
+  if (!el) return;
+  const total = SEG_UNITS.reduce((a,b) => a+b, 0);
+  new Chart(el, {
+    type: 'pie',
+    plugins: [ChartDataLabels],
+    data: { labels: SEG_LABELS, datasets: [{ data: SEG_UNITS, backgroundColor: SEG_COLORS }] },
+    options: {
+      maintainAspectRatio: false,
+      layout: { padding: { top:10, left:10, right:10, bottom:10 } },
+      plugins: {
+        legend: { display: true, position: 'right', labels: { font: { size: 12 }, boxWidth: 14, padding: 10 } },
+        datalabels: {
+          color: '#fff', font: { weight: 'bold', size: 13 },
+          formatter: (v) => { const pct = Math.round(v/total*100); return pct + '%\n' + (v/1e3).toFixed(1) + 'K units'; }
+        },
+        tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.raw.toLocaleString() + ' units (' + (ctx.raw/total*100).toFixed(1) + '%)' } }
+      }
+    }
+  });
+})();
 
-// Units by Segment
-makePie('focusUnitsPie', SEG_LABELS, SEG_UNITS, SEG_COLORS,
-  v => v.toLocaleString(), v => v.toLocaleString() + ' units');
+// Market Share — Revenue (with % + value inside slice)
+(function() {
+  const el = document.getElementById('focusRevPie');
+  if (!el) return;
+  const total = SEG_REV.reduce((a,b) => a+b, 0);
+  new Chart(el, {
+    type: 'pie',
+    plugins: [ChartDataLabels],
+    data: { labels: SEG_LABELS, datasets: [{ data: SEG_REV, backgroundColor: SEG_COLORS }] },
+    options: {
+      maintainAspectRatio: false,
+      layout: { padding: { top:10, left:10, right:10, bottom:10 } },
+      plugins: {
+        legend: { display: true, position: 'right', labels: { font: { size: 12 }, boxWidth: 14, padding: 10 } },
+        datalabels: {
+          color: '#fff', font: { weight: 'bold', size: 13 },
+          formatter: (v) => { const pct = Math.round(v/total*100); return pct + '%\n$' + (v/1e6).toFixed(1) + 'M'; }
+        },
+        tooltip: { callbacks: { label: ctx => ctx.label + ': $' + ctx.raw.toLocaleString() + ' (' + (ctx.raw/total*100).toFixed(1) + '%)' } }
+      }
+    }
+  });
+})();
 
 // Combined Brand Share — Both Segments (Revenue)
 const CB_BRANDS = ['Pacagen','Allergy Asthma Clean','The Ecology Works','Clorox','Naturasil','Premo Guard','Allersearch','Green Bean Buddy','Hygea Natural','EcoVenger','DeMite','Others'];
