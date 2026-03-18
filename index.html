@@ -441,7 +441,7 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
     <div class="sec-title">Customer Profile</div>
   </div>
-  <div class="sec-summary" id="cpSummary">Placeholder — update with actual Allergoff customer profile data.</div>
+  <div class="sec-summary" id="cpSummary">Based on 58 extracted reviews across 7 competitor products. The typical buyer is a <strong>pet owner</strong> (65%) or <strong>parent</strong> (22%) dealing with dust mite or pet dander allergies. Purchase is most often triggered by <strong>bedtime allergy flare-ups</strong> — sneezing, congestion, itchy skin at night. Primary application: <strong>mattresses, bedding, and upholstered furniture</strong>.</div>
 
   <div class="cp-charts">
     <div class="cp-chart-box"><h4>Who</h4><div class="cp-chart-wrap"><canvas id="cpWho"></canvas></div></div>
@@ -571,11 +571,11 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
           <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Multi-pest versatility</td><td class="us-reason">Works on bed bugs, dust mites, fleas, dander, pollen — one product for everything</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:70%;background:#86efac"></div></div><span>7/10</span></td></tr>
           <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>Kills bed bugs, dust mites, fleas, ticks, spider mites</li><li>Neutralizes pet dander, pollen, mold spores, and dust mite waste</li><li>Works on all soft surfaces: bedding, furniture, carpets, curtains</li></ul><div class="pf-quotes"><p>"One product handles dust mites, pet dander, fleas, and spider mites — replaced three different sprays"</p></div></div></td></tr>
 
-          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Long-lasting protection</td><td class="us-reason">6-month protection; monthly routine keeps allergens under control; 20+ year loyal users</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:70%;background:#86efac"></div></div><span>7/10</span></td></tr>
-          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>6-month protection between applications (DustmiteX)</li><li>Monthly spray routine keeps pet dander under control year-round</li><li>20+ years of loyal repeat use confirms sustained effectiveness</li></ul><div class="pf-quotes"><p>"I've used this for 20+ years — spray once a month and my allergies stay completely in check"</p></div></div></td></tr>
-
           <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Improves sleep &amp; breathing</td><td class="us-reason">No more congestion, wheezing, or phlegm on waking; reduces allergy medication needs</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:90%;background:#86efac"></div></div><span>9/10</span></td></tr>
           <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>No more waking up congested, wheezing, or with phlegm</li><li>First full night of sleep without allergy interruptions</li><li>Breathing noticeably cleaner and easier within hours</li><li>Reduces need for allergy medication and ER visits</li></ul><div class="pf-quotes"><p>"Sleep is perfect now — no stuffy nose, no wheezing, went from a 10 in misery to a 1"</p></div></div></td></tr>
+
+          <tr class="pf-row" onclick="togglePF(this)"><td class="us-label"><span class="pf-arrow">&#9654;</span> Long-lasting protection</td><td class="us-reason">6-month protection; monthly routine keeps allergens under control; 20+ year loyal users</td><td class="us-pct"><div class="us-bar-wrap"><div class="us-bar" style="width:70%;background:#86efac"></div></div><span>7/10</span></td></tr>
+          <tr class="pf-detail"><td colspan="3"><div class="pf-body"><ul><li>6-month protection between applications (DustmiteX)</li><li>Monthly spray routine keeps pet dander under control year-round</li><li>20+ years of loyal repeat use confirms sustained effectiveness</li></ul><div class="pf-quotes"><p>"I've used this for 20+ years — spray once a month and my allergies stay completely in check"</p></div></div></td></tr>
         </tbody>
       </table>
     </div>
@@ -985,10 +985,10 @@ function togglePF(row) {
 // Customer Profile charts — placeholder
 (function buildCustomerProfile() {
   const cpData = {
-    who:   { labels: ['placeholder'], pos: [0], neg: [0] },
-    when:  { labels: ['placeholder'], pos: [0], neg: [0] },
-    where: { labels: ['placeholder'], pos: [0], neg: [0] },
-    what:  { labels: ['placeholder'], pos: [0], neg: [0] }
+    who:   { labels: ['Pet Owners','Parents','Couples','Allergy Patients','Clean Enthus.'], pos: [38,11,5,3,2], neg: [0,2,0,0,1] },
+    when:  { labels: ['Bedtime','Flare-up','Seasonal','Routine','New Home'], pos: [26,13,7,6,3], neg: [3,1,0,0,0] },
+    where: { labels: ['Bedding','Carpet/Floor','Furniture','Curtains','Car/Office'], pos: [22,15,13,8,5], neg: [0,0,2,0,1] },
+    what:  { labels: ['Dust Mites','Allergens','Pet Dander','Fleas','Bed Bugs'], pos: [27,24,6,6,3], neg: [4,3,0,1,2] }
   };
   function makeStackedBar(canvasId, labels, posData, negData) {
     const ctx = document.getElementById(canvasId);
